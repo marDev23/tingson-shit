@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\DB;
 use Gloudemans\Shoppingcart\Facades\Cart; // for cart lib
 use Illuminate\Http\Request;
 use App\products;
+use App\Province;
+use App\Location;
 use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {

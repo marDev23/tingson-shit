@@ -15,7 +15,10 @@ $(document).ready(function(){
         success:function(){
         $('#cartBtn<?php echo $i;?>').hide();
         $('#successMsg<?php echo $i;?>').show();
-        $('#successMsg<?php echo $i;?>').append('product has been added to cart');
+        $('#successMsg<?php echo $i;?>').append('Product Added');
+        setTimeout(function() {// wait for 5 secs(2)
+           location.reload(); // then reload the page.(3)
+            }, 100); 
         }
       });
 
@@ -23,6 +26,18 @@ $(document).ready(function(){
     <?php }?>
 });
 </script>
+{{-- <section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{url('/')}}">Home</a></li>
+                <li class="active">{{$}}</li>
+            </ol>
+        </div>
+        <div align="center">  <img src="{{asset('theme/images/cart/empty-cart.png')}}"/></div>
+
+    </div>
+</section> <!--/#cart_items--> --}}
 <section id="advertisement">
     <div class="container">
       <h3 align="center">Products</h3>
@@ -34,47 +49,66 @@ $(document).ready(function(){
         <div class="row">
             <div class="col-sm-3">
                 <div class="left-sidebar">
-
-                    <div class="price-range"><!--price-range-->
-
-                                <div class="well">
-                                   <h2>Price Range</h2>
-                                    <div id="slider-range"></div>
-                                    <br>
-                                    <b class="pull-left">$
-                                        <input size="2" type="text" id="amount_start" name="start_price"
-                                               value="15" style="border:0px; font-weight: bold; color:green" readonly="readonly" /></b>
-
-                                    <b class="pull-right">$
-                                        <input size="2" type="text" id="amount_end" name="end_price" value="65"
-                                               style="border:0px; font-weight: bold; color:green" readonly="readonly"/></b>
-                                   </div>
-
-                            </div><!--/price-range-->
-
-                    <div class="brands_products"><!--brands_products-->
-                        <div class="brands-name">
-                              <h2>Brands</h2>
-                                <ul class="nav nav-pills nav-stacked">
-
-                                    <?php $cats = DB::table('pro_cat')->orderby('name', 'ASC')->get();?>
-
-                                    @foreach($cats as $cat)
-                                    <li class="brandLi"><input type="checkbox" id="brandId" value="{{$cat->id}}" class="try"/>
-                                 <span class="pull-right">({{App\products::where('cat_id',$cat->id)->count()}})</span>
-                                  <b>  {{ucwords($cat->name)}}</b></li>
-                                   @endforeach
-                                 <?php /*   <li><a href=""> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                                    <li><a href=""> <span class="pull-right">(27)</span>Albiro</a></li>
-                                    <li><a href=""> <span class="pull-right">(32)</span>Ronhill</a></li>
-                                    <li><a href=""> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                                    <li><a href=""> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                                    <li><a href=""> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-                                  * */?>
-
-                               </ul>
+                  <h2>Category</h2>
+                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Home Furniture
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="sportswear" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach(App\pro_cat::with('childs')->where('p_id',1)->get() as $cat)
+                                          <li><a href="{{url('/')}}/products/{{$cat->name}}">{{ucwords($cat->name)}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div><!--/brands_products-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#mens">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Office Furniture
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="mens" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach(App\pro_cat::with('childs')->where('p_id',2)->get() as $cat)
+                                          <li><a href="{{url('/')}}/products/{{$cat->name}}">{{ucwords($cat->name)}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#womens">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Decor
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="womens" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach(App\pro_cat::with('childs')->where('p_id',3)->get() as $cat)
+                                          <li><a href="{{url('/')}}/products/{{$cat->name}}">{{ucwords($cat->name)}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
                     <div class="shipping text-center"><!--shipping-->
                         <img src="{{url('../')}}/theme/images/home/shipping.jpg" alt="" />
@@ -82,6 +116,7 @@ $(document).ready(function(){
 
                 </div>
             </div>
+          </div>
 
             <div class="col-sm-9 padding-right"  id="updateDiv" >
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Province;
 use App\address;
 use App\orders;
 
@@ -12,12 +13,24 @@ class CheckoutController extends Controller {
 
     public function index() {
         // check for user login
-        if (Auth::check()) {
-              $cartItems = Cart::content(); 
-            return view('front.checkout', compact('cartItems'));
-        } else {
-            return redirect('login');
-        }
+        // if (Auth::check()) {
+              $provinces = Province::all();
+              $cartItems = Cart::content();
+              if ($cartItems->isEmpty()) {
+                return view('errors.none');
+              }
+               
+              else {
+                return view('front.checkout', compact(['cartItems', 'provinces']));
+              }
+            
+        // } 
+
+        // else 
+
+        // {
+        //     return redirect('login');
+        // }
     }
 
     public function formvalidate(Request $request) {

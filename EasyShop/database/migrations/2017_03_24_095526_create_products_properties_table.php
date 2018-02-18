@@ -18,7 +18,7 @@ class CreateProductsPropertiesTable extends Migration
            $table->increments('pro_id');
            $table->sting('size');
            $table->string('color');
-          $table->string('p_price');
+           $table->string('p_price');
            $table->timestamps();
        });
     }

@@ -29,7 +29,7 @@ Route::post('/cart/addItem/{id}', 'CartController@addItem');
 Route::get('/cart/remove/{id}', 'CartController@destroy');
 Route::get('/cart/update/{id}', 'CartController@update');
 
-Route::get('/newArrival', 'HomeController@newArrival');
+// Route::get('/newArrival', 'HomeController@newArrival');
 
 // logged in user pages
 Route::group(['middleware' => 'auth'], function() {

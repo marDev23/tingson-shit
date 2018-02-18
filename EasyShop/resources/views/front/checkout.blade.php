@@ -18,7 +18,8 @@
 
 
 
-        <?php // form start here?>
+        <?php // form start here 
+        ?>
         <form action="{{url('/')}}/formvalidate" method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="shopper-informations">
@@ -32,32 +33,28 @@
                             <span style="color:red">{{ $errors->first('fullname') }}</span>
                             <hr>
 
-                            <input type="text" placeholder="State Name" name="state" class="form-control" value="{{ old('state') }}">
+                            {{-- <input type="text" placeholder="Province" name="province" class="form-control" value="{{ old('state') }}"> --}}
+                            <input type="text" placeholder="City/Municipal" name="state" class="form-control" value="{{ old('state') }}">
 
                             <span style="color:red">{{ $errors->first('state') }}</span>
 
                             <hr>
-                            <input type="text" placeholder="Pincode" name="pincode" class="form-control" value="{{ old('pincode') }}">
+                            <input type="text" placeholder="Zip" name="pincode" class="form-control" value="{{ old('pincode') }}">
 
                             <span style="color:red">{{ $errors->first('pincode') }}</span>
 
                             <hr>
-                            <input type="text" placeholder="City Name" name="city" class="form-control" value="{{ old('city') }}">
+                            <input type="text" placeholder="Baranggay" name="city" class="form-control" value="{{ old('city') }}">
 
                             <span style="color:red">{{ $errors->first('city') }}</span>
 
                             <hr>
 
                             <select name="country" class="form-control" >
-                                <option value="{{ old('country') }}" selected="selected">Select country</option>
-                                <option value="United States">United States</option>
-                                <option value="Bangladesh">Bangladesh</option>
-                                <option value="UK">UK</option>
-                                <option value="India">India</option>
-                                <option value="Pakistan">Pakistan</option>
-                                <option value="Ucrane">Ucrane</option>
-                                <option value="Canada">Canada</option>
-                                <option value="Dubai">Dubai</option>
+                                <option value="{{ old('country') }}" selected="selected">Select City/Municipal</option>
+                                @foreach($provinces as $province)
+                                <option value="{{$province->id}}">{{$province->name}}</option>
+                                @endforeach
                             </select>
                             <span style="color:red">{{ $errors->first('country') }}</span>
 
@@ -71,13 +68,13 @@
                         <div class="order-message">
                             <p>Shipping Order</p>
                             <textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
-                            <label><input type="checkbox"> Shipping to bill address</label>
                         </div>
                     </div>
                 </div>
             </div>
 
-        <?php // form end here?>
+        <?php // form end here
+        ?>
 
         <div class="review-payment">
             <h2>Review & Payment</h2>
@@ -96,14 +93,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($cartItems as $cartItem)
+                @foreach($cartItems as $cartItem)
                     <tr>
                         <td class="cart_product">
                             <a href=""><img src="{{ asset('upload/images/small') }}/{{$cartItem->options->img}}" alt=""></a>
                         </td>
                         <td class="cart_description">
                             <h4><a href="">{{$cartItem->name}}</a></h4>
-                            <p>Web ID: {{$cartItem->id}}</p>
                         </td>
                         <td class="cart_price">
                             <p>₱{{$cartItem->price}}</p>
@@ -152,18 +148,18 @@
             </table>
         </div>
         <div class="payment-options">
-            <span>
+            {{-- <span>
                 <input type="radio" name="pay" value="COD" checked="checked" id="cash"> COD
 
-            </span>
+            </span> --}}
             <span>
-                <input type="radio" name="pay" value="paypal" id="paypal"> PayPal
+                {{-- <input type="radio" name="pay" value="paypal" id="paypal"> PayPal --}}
                 @include('front.paypal')
             </span>
 
-            <span>
+            {{-- <span>
             <input type="submit" value="COD" class="btn btn-primary" id="cashbtn">
-            </span>
+            </span> --}}
         </div>
     </div>
 
@@ -173,10 +169,10 @@
 
 
 
-        <script>
+        {{-- <script>
 
-            $('#paypalbtn').hide();
-          //  $('#cashbtn').hide();
+            $('#paypalbtn').show();
+          $('#cashbtn').hide();
 
             $(':radio[id=paypal]').change(function(){
                 $('#paypalbtn').show();
@@ -189,7 +185,7 @@
                 $('#cashbtn').show();
 
             });
-            </script>
+            </script> --}}
 </section> <!--/#cart_items-->
 
 

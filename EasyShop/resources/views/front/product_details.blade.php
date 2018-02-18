@@ -3,8 +3,8 @@
 @section('content')
 <script>
 $(document).ready(function(){
-// $('#addToCart').hide();
-// $('#addToCart_default').show();
+$('#addToCart').hide();
+$('#addToCart_default').show();
  $('#size').change(function(){
    var size = $('#size').val();
 var proDum = $('#proDum').val();
@@ -57,20 +57,68 @@ var proDum = $('#proDum').val();
             <div class="col-sm-3">
                 <div class="left-sidebar">
 
-                    {{-- <div class="brands_products"><!--brands_products-->
-                        <h2>Brands</h2>
-                        <div class="brands-name">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href=""> <span class="pull-right">(50)</span>Acne</a></li>
-                                <li><a href=""> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                                <li><a href=""> <span class="pull-right">(27)</span>Albiro</a></li>
-                                <li><a href=""> <span class="pull-right">(32)</span>Ronhill</a></li>
-                                <li><a href=""> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                                <li><a href=""> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                                <li><a href=""> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-                            </ul>
+                    <h2>Category</h2>
+                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Home Furniture
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="sportswear" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach(App\pro_cat::with('childs')->where('p_id',1)->get() as $cat)
+                                          <li><a href="{{url('/')}}/products/{{$cat->name}}">{{ucwords($cat->name)}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div><!--/brands_products--> --}}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#mens">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Office Furniture
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="mens" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach(App\pro_cat::with('childs')->where('p_id',2)->get() as $cat)
+                                          <li><a href="{{url('/')}}/products/{{$cat->name}}">{{ucwords($cat->name)}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#womens">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Decor
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="womens" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach(App\pro_cat::with('childs')->where('p_id',3)->get() as $cat)
+                                          <li><a href="{{url('/')}}/products/{{$cat->name}}">{{ucwords($cat->name)}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div><!--/category-productsr-->
 
 
                     <div class="shipping text-center"><!--shipping-->
@@ -134,7 +182,7 @@ var proDum = $('#proDum').val();
                             ->where('pro_id',$value->id)->groupBy('size')->get();?>
                             @if(count($sizes)!=0)
                             <select name="size" id="size">
-                              <option value="">Select Size to see color</option>
+                              <option value="">Select Size To See Color</option>
                               @foreach ($sizes as $size)
                               <option>{{$size->size}}</option>
                               @endforeach
@@ -186,8 +234,8 @@ var proDum = $('#proDum').val();
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-                            <li><a href="#tag" data-toggle="tab">Tag</a></li>
-                            <li ><a href="#reviews" data-toggle="tab">Reviews ({{$count_reviews}})</a></li>
+                            {{-- <li><a href="#tag" data-toggle="tab">Tag</a></li>
+                            <li ><a href="#reviews" data-toggle="tab">Reviews ({{$count_reviews}})</a></li> --}}
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -195,11 +243,11 @@ var proDum = $('#proDum').val();
                           <p>{{ $value->pro_info}}</p>
                         </div>
 
-                        <div class="tab-pane fade" id="tag" >
+                        {{-- <div class="tab-pane fade" id="tag" >
                           <li>tag1</li>   <li>tag2</li>
-                        </div>
+                        </div> --}}
 
-                        <div class="tab-pane fade " id="reviews" >
+                        {{-- <div class="tab-pane fade " id="reviews" >
                             <div class="col-sm-12">
 
                               @foreach($reviews as $review)
@@ -227,7 +275,7 @@ var proDum = $('#proDum').val();
                                     </button>
                                 </form>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div><!--/category-tab-->

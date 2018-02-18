@@ -18,7 +18,9 @@ class HomeController extends Controller {
     }
 
     public function index() {
-        return view('front.home');
+        $newArrival = DB::table('products')->where('new_arrival', 1)->paginate(12); // now we are fetching all products
+
+        return view('front.home',  compact('newArrival'));
     }
 
     public function shop(Request $request) {
@@ -50,11 +52,11 @@ class HomeController extends Controller {
     }
 
 
-    public function newArrival(){
-                  $Products = DB::table('products')->where('new_arrival', 1)->paginate(6); // now we are fetching all products
-                  return view('front.shop', compact('Products'));
+    // public function newArrival(){
+    //               $Products = DB::table('products')->where('new_arrival', 1)->paginate(6); // now we are fetching all products
+    //               return view('front.shop', compact('Products'));
 
-    }
+    // }
 
     public function proCats(Request $request) {
            if ($request->ajax() && isset($request->start)) {
