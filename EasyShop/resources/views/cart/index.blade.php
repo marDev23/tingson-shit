@@ -11,8 +11,8 @@ $(document).ready(function(){
   var rowId = $('#rowId<?php echo $i;?>').val();
   var proId = $('#proId<?php echo $i;?>').val();
 
-   if(newqty <=0){ alert('enter only valid qty') }
-  else {
+  //  if(newqty <=0){ alert('enter only valid qty') }
+  // else {
 
     $.ajax({
         type: 'get',
@@ -22,9 +22,12 @@ $(document).ready(function(){
         success: function (response) {
             console.log(response);
             $('#updateDiv').html(response);
+            setTimeout(function() {// wait for 5 secs(2)
+           location.reload(); // then reload the page.(3)
+            }, 300);
         }
     });
-  }
+  // }
 
   });
   <?php } ?>
@@ -35,6 +38,7 @@ $(document).ready(function(){
 
 
 </script>
+
 <?php if ($cartItems->isEmpty()) { ?>
     <section id="cart_items">
         <div class="container">
@@ -99,7 +103,6 @@ $(document).ready(function(){
                             </td>
                             <td class="cart_description">
                                 <h4><a href="{{url('/product_details')}}/{{$cartItem->id}}" style="color:blue">{{$cartItem->name}}</a></h4>
-                                <p>Product ID: {{$cartItem->id}}</p>
                             </td>
                             <td class="cart_price">
                                 <p>₱{{$cartItem->price}}</p>
@@ -196,7 +199,7 @@ $(document).ready(function(){
                     <div class="total_area">
                         <ul>
                             <li>Cart Sub Total <span>₱{{Cart::subtotal()}}</span></li>
-                            <li>Tax <span>₱{{-- {{Cart::tax()}} --}}0.00</span></li>
+                            <li>Tax <span>₱{{Cart::tax()}}</span></li>
                             <li>Shipping Cost <span>Free</span></li>
                             <li>Total <span>₱{{Cart::total()}}</span></li>
                         </ul>

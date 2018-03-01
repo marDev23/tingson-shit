@@ -17,6 +17,7 @@ class CartController extends Controller
     }
 
     public function addItem(Request $request, $id){
+      if(Auth::check()) {
         $products = products::find($id); // get prodcut by id
         if(isset($request->newPrice))
         {
@@ -28,6 +29,10 @@ class CartController extends Controller
         Cart::add($id,$products->pro_name,1,$price,['img' => $products->pro_img,'stock' => $products->stock]);
 
          return back();
+      }
+      else {
+        return redirect('/login');
+      }
     }
 
     public function destroy($id){

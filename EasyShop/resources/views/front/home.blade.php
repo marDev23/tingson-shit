@@ -16,7 +16,7 @@
                             <div class="carousel-inner">
                                 <div class="item active">
                                     <div class="col-sm-6">
-                                        <h1><span>TINGTSON FURNITURE</h1>
+                                        <h1><span>TINGSON FURNITURE</h1>
                                         <h2>Free E-Commerce Template</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                                         <button type="button" class="btn btn-default get">Get it now</button>
@@ -41,7 +41,7 @@
 
                                 <div class="item">
                                     <div class="col-sm-6">
-                                        <h1>TINGOSN FURNITURE</h1>
+                                        <h1>TINGSON FURNITURE</h1>
                                         <h2>Free Ecommerce Template</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
                                         <button type="button" class="btn btn-default get">Get it now</button>
@@ -170,9 +170,9 @@
 
                             </div><!--/price-range--> --}}
 
-                            {{-- <div class="shipping text-center"><!--shipping-->
+                            <div class="shipping text-center"><!--shipping-->
                                 <img src="images/home/shipping.jpg" alt="" />
-                            </div><!--/shipping--> --}}
+                            </div><!--/shipping-->
 
                         </div>
                     </div>
@@ -223,6 +223,7 @@
                                         </div></a>
                                 </div>
                                 <div class="choose">
+                                    @if (Auth::check())
                                     <?php
                                     $wishData = DB::table('wishlist')->leftJoin('products', 'wishlist.pro_id', '=', 'products.id')->where('wishlist.pro_id', '=', $product->id)->get();
                                     $count = App\wishList::where(['pro_id' => $product->id])->count();
@@ -237,8 +238,17 @@
                                             </p>
                                         </form>
                                     <?php } else { ?>
-                                        <h5 style="color:green"> Added to <a href="{{url('/WishList')}}">wishList</a></h5>
+                                        <h5 style="color:green"> Added to <a href="{{url('/WishList')}}">Wishlist</a></h5>
                                     <?php } ?>
+                                    @else
+                                    <form action="{{url('/addToWishList')}}" method="post">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" value="{{$product->id}}" name="pro_id"/>
+                                            <p align="center">
+                                                <input type="submit" value="Add to WishList" class="btn btn-primary"/>
+                                            </p>
+                                        </form>
+                                    @endif  
 
                                 </div>
                             </div>

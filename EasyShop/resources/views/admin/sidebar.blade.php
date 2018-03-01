@@ -41,9 +41,20 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-            <li class="sub-menu">
+                    <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <i class="icon_document_alt"></i>
+                            <span>Orders</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="{{url('/admin/viewOrders')}}">View Orders</a></li>
+                            {{-- <li><a href="{{url('/admin/products')}}">View Products</a></li> --}}
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_cart_alt"></i>
                             <span>Products</span>
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
@@ -63,6 +74,28 @@
 
                             <li><a class="" href="{{url('/admin/categories')}}">View Categories</a></li>
 
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_profile"></i>
+                            <span>Users</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="">Add User</a></li>
+                            <li><a href="}">View Users</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_map_alt"></i>
+                            <span>Locations</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="">Add Location</a></li>
+                            <li><a href="}">View Locations</a></li>
                         </ul>
                     </li>
 

@@ -278,9 +278,14 @@ class AdminController extends Controller {
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
            ]);
+          return back();
         }
       }
 
+    }
+
+    public function view_orders() {
+      return view('admin.orders');
     }
 
 

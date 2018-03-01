@@ -8,32 +8,29 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Province;
 use App\address;
 use App\orders;
+use Storage;
+use Image;
 
 class CheckoutController extends Controller {
 
     public function index() {
-        // check for user login
-        // if (Auth::check()) {
-              $provinces = Province::all();
-              $cartItems = Cart::content();
-              if ($cartItems->isEmpty()) {
-                return view('errors.none');
-              }
-               
-              else {
-                return view('front.checkout', compact(['cartItems', 'provinces']));
-              }
-            
-        // } 
-
-        // else 
-
-        // {
-        //     return redirect('login');
-        // }
+          $profile_address = address::where('user_id', Auth::user()->id)->first();
+          $provinces = Province::all();
+          $cartItems = Cart::content();
+          return view('front.checkout', compact(['cartItems', 'provinces', 'profile_address']));
+          
+       
     }
 
     public function formvalidate(Request $request) {
+        $file = $request->file('reciept_img');
+        $filename = $file->getClientOriginalName();
+
+        $path = base_path() . '/public/reciept/images';
+        $file->move($path, $filename);
+
+        $profile_address = address::where('user_id', Auth::user()->id)->get();
+        if($profile_address->isEmpty()) {
         $this->validate($request, [
             'fullname' => 'required|min:5|max:35',
             'pincode' => 'required|numeric',
@@ -53,12 +50,21 @@ class CheckoutController extends Controller {
         $address->pincode = $request->pincode;
         $address->payment_type = $request->pay;
         $address->save();
-       
-        
-        orders::createOrder();
+
+        orders::createOrder($filename);
         
         Cart::destroy();
         return redirect('thankyou');
+
+       }
+       else {
+        orders::createOrder($filename);
+        
+        Cart::destroy();
+        return redirect('thankyou');
+       }
+        
+        
     }
 
 }

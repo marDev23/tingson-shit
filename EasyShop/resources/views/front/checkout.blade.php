@@ -3,6 +3,20 @@
 @section('content')
 
 <section id="cart_items">
+    <?php if ($cartItems->isEmpty()) { ?>
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="{{url('/')}}">Home</a></li>
+                    <li class="active">Shopping Cart</li>
+                </ol>
+            </div>
+            <div align="center">  <img src="{{asset('theme/images/cart/empty-cart.png')}}"/></div>
+
+        </div>
+    </section> <!--/#cart_items-->
+    <?php } else { ?>
     <div class="container">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
@@ -20,21 +34,19 @@
 
         <?php // form start here 
         ?>
-        <form action="{{url('/')}}/formvalidate" method="post">
+        <form action="{{url('/')}}/formvalidate" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="shopper-informations">
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="shopper-info">
                             <p>Shopper Information</p>
-
-                            <input type="text" name="fullname"  placeholder="Display Name" class="form-control"  value="{{ old('fullname') }}">
+                            <?php if (empty($profile_address)) { ?>
+                            <input type="text" name="fullname"  placeholder="Display Name" class="form-control"  value="{{old('fullname')}}">
 
                             <span style="color:red">{{ $errors->first('fullname') }}</span>
                             <hr>
-
-                            {{-- <input type="text" placeholder="Province" name="province" class="form-control" value="{{ old('state') }}"> --}}
-                            <input type="text" placeholder="City/Municipal" name="state" class="form-control" value="{{ old('state') }}">
+                            <input type="text" placeholder="City/Municipal" name="state" class="form-control" value="{{old('state')}}">
 
                             <span style="color:red">{{ $errors->first('state') }}</span>
 
@@ -50,24 +62,24 @@
 
                             <hr>
 
-                            <select name="country" class="form-control" >
+                            <select name="country" class="form-control">
                                 <option value="{{ old('country') }}" selected="selected">Select City/Municipal</option>
                                 @foreach($provinces as $province)
-                                <option value="{{$province->id}}">{{$province->name}}</option>
+                                <option value="{{$province->name}}">{{$province->name}}</option>
                                 @endforeach
                             </select>
                             <span style="color:red">{{ $errors->first('country') }}</span>
-
-
-
+                            <?php } ?>
 
                         </div>
                     </div>
 
                     <div class="col-sm-4">
                         <div class="order-message">
-                            <p>Shipping Order</p>
-                            <textarea name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="16"></textarea>
+                            <p>Upload Reciept</p>
+                            <textarea disabled name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="6"></textarea>
+                            <input type="file" name="reciept_img" class="form-control">
+                            <span style="color:red">{{ $errors->first('reciept_img') }}</span>
                         </div>
                     </div>
                 </div>
@@ -148,18 +160,13 @@
             </table>
         </div>
         <div class="payment-options">
-            {{-- <span>
-                <input type="radio" name="pay" value="COD" checked="checked" id="cash"> COD
-
-            </span> --}}
             <span>
-                {{-- <input type="radio" name="pay" value="paypal" id="paypal"> PayPal --}}
-                @include('front.paypal')
-            </span>
+                <input type="hidden" name="pay" value="Padala" checked="checked" id="cash">
 
-            {{-- <span>
-            <input type="submit" value="COD" class="btn btn-primary" id="cashbtn">
-            </span> --}}
+            </span>
+            <span>
+            <input type="submit" value="Place Order(s)" class="btn btn-primary" id="cashbtn">
+            </span>
         </div>
     </div>
 
@@ -186,6 +193,7 @@
 
             });
             </script> --}}
+    <?php } ?>
 </section> <!--/#cart_items-->
 
 

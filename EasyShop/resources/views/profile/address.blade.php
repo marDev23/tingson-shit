@@ -33,9 +33,9 @@
                 @endif
                 
                 <h3><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Your Address</h3>
-
+                @if(count($address_data) > 0)
                 {!! Form::open(['url' => 'updateAddress',  'method' => 'post']) !!}
-
+                
                 @foreach($address_data as $value)
                 <div class="container" >
 
@@ -91,6 +91,64 @@
                 </div>
                 @endforeach
                 {!! Form::close() !!}
+                
+                @else
+                {!! Form::open(['url' => 'saveAddress',  'method' => 'post']) !!}
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="container" >
+
+
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6">
+                            <label for="example-text-input" >Full Name</label>
+                            <input class="form-control" type="text"  name="fullname" value="">
+                            <span style="color:red">{{ $errors->first('fullname') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6">
+                            <label for="example-text-input">City</label>
+                            <input class="form-control" type="text"  name="city" value="">
+                            <span style="color:red">{{ $errors->first('city') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6">
+                            <label for="example-text-input" >State</label>
+                            <input class="form-control" type="text"  name="state" value="">
+                            <span style="color:red">{{ $errors->first('state') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6">
+                            <label for="example-text-input" >Pincode</label>
+                            <input class="form-control" type="text"  name="pincode" value="">
+                            <span style="color:red">{{ $errors->first('pincode') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6">
+                            <label for="example-text-input" >Country</label>
+                            <input class="form-control" type="text"  name="country" value="">
+                            <span style="color:red">{{ $errors->first('country') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="form-group col-md-6" align="right">
+                            <input class="btn btn-primary" type="submit"  value="Save Address">
+                        </div>
+                    </div>
+
+
+                </div>
+                {!! Form::close() !!}
+                @endif
             </div>
         </div>
 

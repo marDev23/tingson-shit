@@ -146,7 +146,12 @@
                                     <?php if (Auth::check()) { ?>
                                         <li><a href="{{url('/')}}/profile"><i class="fa fa-user"></i>{{ucwords(Auth::user()->name)}}</a></li>
                                     <?php } ?>
-                                    <li><a href="{{url('/WishList')}}"><i class="fa fa-star"></i> Wishlist <span style="color:green; font-weight: bold">({{App\wishList::count()}})</span> </a></li>
+                                    <li><a href="{{url('/WishList')}}"><i class="fa fa-star"></i> Wishlist <span style="color:green; font-weight: bold">(@if(Auth::check())
+                                                                         {{App\wishList::count()}}
+                                                                         @else
+                                                                         0
+                                                                         @endif
+                                                                        )</span> </a></li>
                                     <li><a href="{{url('/checkout')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 
                                    <?php
@@ -207,7 +212,6 @@
                                     <?php } else { ?>
                                         <li><a href="{{url('/login')}}"><i class="fa fa-lock"></i> Login</a></li>
                                     <?php } ?>
-                                        </li>
                                 </ul>
                             </div>
                         </div>

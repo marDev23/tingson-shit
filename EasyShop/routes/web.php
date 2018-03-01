@@ -2,8 +2,6 @@
 
 
 Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index');
-
 Route::get('/range', function() {
     return view('front.range');
 });
@@ -21,27 +19,30 @@ Route::get('/products/{name}', 'HomeController@proCats');
 
 Route::get('/contact', 'HomeController@contact');
 Route::post('/search', 'HomeController@search');
-Route::get('/cart', 'CartController@index');
 
-Route::get('/cart/addItem/{id}', 'CartController@addItem');
-Route::post('/cart/addItem/{id}', 'CartController@addItem');
-
-Route::get('/cart/remove/{id}', 'CartController@destroy');
-Route::get('/cart/update/{id}', 'CartController@update');
 
 // Route::get('/newArrival', 'HomeController@newArrival');
 
 // logged in user pages
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/checkout', 'CheckoutController@index');
-    Route::post('/formvalidate', 'CheckoutController@formvalidate');
+    Route::get('/cart', 'CartController@index');
+    Route::get('/WishList', 'HomeController@View_wishList');
+    Route::get('/removeWishList/{id}', 'HomeController@removeWishList');
+    Route::get('/cart/addItem/{id}', 'CartController@addItem');
+    Route::post('/cart/addItem/{id}', 'CartController@addItem');
 
+    Route::get('/cart/remove/{id}', 'CartController@destroy');
+    Route::get('/cart/update/{id}', 'CartController@update');
+    Route::get('/checkout', 'CheckoutController@index');
+    
+    Route::post('/formvalidate', 'CheckoutController@formvalidate');
     Route::get('/profile', function() {
         return view('profile.index');
     });
     Route::get('/orders', 'ProfileController@orders');
 
     Route::get('/address', 'ProfileController@address');
+    Route::post('/saveAddress', 'ProfileController@saveAddress');
     Route::post('/updateAddress', 'ProfileController@UpdateAddress');
 
     Route::get('/password', 'ProfileController@Password');
@@ -91,6 +92,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::post('submitAlt','AdminController@submitAlt');
     Route::get('/users','AdminController@users');
     Route::get('/updateRole','AdminController@updateRole');
+    Route::get('/viewOrders', 'AdminController@view_orders');
 
 
     //import products
@@ -99,6 +101,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 });
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::post('addToWishList', 'HomeController@wishList');
-Route::get('/WishList', 'HomeController@View_wishList');
-Route::get('/removeWishList/{id}', 'HomeController@removeWishList');
+
+
 //Route::get('/admin', 'AdminController@index');

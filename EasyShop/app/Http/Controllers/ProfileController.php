@@ -16,7 +16,7 @@ class ProfileController extends Controller {
 
     public function orders() {
         $user_id = Auth::user()->id;
-        $orders = DB::table('orders_products')->leftJoin('products', 'products.id', '=', 'orders_products.products_id')->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')->where('orders.user_id', '=', $user_id)->get();
+       $orders = DB::table('orders_products')->leftJoin('products', 'products.id', '=', 'orders_products.products_id')->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')->where('orders.user_id', '=', $user_id)->get();
         return view('profile.orders', compact('orders'));
     }
 
@@ -38,6 +38,29 @@ class ProfileController extends Controller {
         DB::table('address')->where('user_id', $userid)->update($request->except('_token'));
 
         return back()->with('msg','Your address has been updated');
+    }
+
+    public function saveAddress(Request $request) {
+        $this->validate($request, [
+            'fullname' => 'required|min:5|max:35',
+            'pincode' => 'required|numeric',
+            'city' => 'required|min:5|max:25',
+            'state' => 'required|min:5|max:25',
+            'country' => 'required']);
+
+        $userid = Auth::user()->id;
+
+        $address = new address;
+        $address->fullname = $request->fullname;
+        $address->state = $request->state;
+        $address->city = $request->city;
+        $address->country = $request->country;
+
+        $address->user_id = $userid;
+        $address->pincode = $request->pincode;
+        $address->payment_type = $request->pay;
+        $address->save();
+        return back()->with('msg','Your address has been save');
     }
 
     public function Password() {

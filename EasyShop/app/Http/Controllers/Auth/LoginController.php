@@ -25,8 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-   protected $redirectTo = '/home';
-
+    protected $redirectTo = '/';
     /**
      * Create a new controller instance.
      *
@@ -42,8 +41,6 @@ class LoginController extends Controller
       $credentials = $Request->only($this->username(),'password'); // getting data from login form
       return array_add($credentials, 'isBan',0); // 0 means all fine and can login
     }
-
-
 
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -12,10 +12,10 @@ use App\recommends;
 
 class HomeController extends Controller {
 
-    public function __construct() {
-        return view('front.home');
-        //$this->middleware('auth');
-    }
+    // public function __construct() {
+    //     return view('front.home');
+    //     //$this->middleware('auth');
+    // }
 
     public function index() {
         $newArrival = DB::table('products')->where('new_arrival', 1)->paginate(12); // now we are fetching all products
@@ -71,11 +71,6 @@ class HomeController extends Controller {
                     ->paginate(6);
              response()->json($Products); //return to ajax
             return view('front.products', compact('Products'));
-        } else if(isset($request->brand)){
-            $brand = $request->brand; //brand
-            $Products = DB::table('products')->whereIN('cat_id', explode( ',', $brand ))->paginate(6);
-             response()->json($Products); //return to ajax
-            return view('front.products', compact('Products'));
         } else{
         $catName = $request->name;
         $Products = DB::table('pro_cat')->leftJoin('products', 'pro_cat.id', '=', 'products.cat_id')->where('pro_cat.name', '=', $catName)->paginate(6);
@@ -120,17 +115,25 @@ class HomeController extends Controller {
     }
 
     public function wishList(Request $request) {
+        if(Auth::user()) {
+          $wishList = new wishList;
+          $wishList->user_id = Auth::user()->id;
+          $wishList->pro_id = $request->pro_id;
+          $wishList->save();
 
+          $Products = DB::table('products')->where('id', $request->pro_id)->get();
+          Cart::instance('wishlist')->add($Products[0]->id, $Products[0]->pro_name, 1, $Products[0]->pro_price, ['img' => $Products[0]->pro_img]);
 
-        $wishList = new wishList;
-        $wishList->user_id = Auth::user()->id;
-        $wishList->pro_id = $request->pro_id;
-        $wishList->save();
+          // $Products = DB::table('products')->where('id', $request->pro_id)->get();
+          //$Products = DB::table('wishlist')->leftJoin('products', 'wishlist.pro_id', '=', 'products.ic')->get();
 
-        $Products = DB::table('products')->where('id', $request->pro_id)->get();
-        //$Products = DB::table('wishlist')->leftJoin('products', 'wishlist.pro_id', '=', 'products.ic')->get();
+          return back();
+        }
+        else {
+          return redirect('/login');
+        }
 
-        return back();
+        
     }
 
     public function View_wishList() {
@@ -141,9 +144,15 @@ class HomeController extends Controller {
 
     public function removeWishList($id) {
 
+        if (Auth::check()) {
         DB::table('wishlist')->where('pro_id', '=', $id)->delete();
 
-        return back()->with('msg', 'Item Removed from Wishlist');
+        return back()->with('msg', 'Item Removed');
+        }
+        else {
+          Cart::instance('wishlist')->remove($id);
+          return back()->with('msg', 'Item Removed');
+        }
     }
 
 
