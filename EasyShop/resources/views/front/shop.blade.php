@@ -163,12 +163,12 @@ $(document).ready(function(){
                                             <div class="overlay-content">
                                                 <h2>
                                                   @if($product->spl_price==0)
-                                                  ${{$product->pro_price}}
+                                                  ₱{{$product->pro_price}}
                                                   @else
                                                 <img src="{{ asset('theme/images/shop/sale.png') }}" style="width:60px"/>
                                                 <span style="text-decoration:line-through; color:#ddd">
-                                                   ${{$product->pro_price}} </span>
-                                                   ${{$product->spl_price}}
+                                                   ₱{{$product->pro_price}} </span>
+                                                   ₱{{$product->spl_price}}
                                                   @endif
                                                 </h2>
                                                 <p><?php echo $product->pro_name; ?></p>
