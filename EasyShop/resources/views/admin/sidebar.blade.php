@@ -1,36 +1,4 @@
-<?php /*
-<div class="col-md-2">
-           <div class="sidebar content-box" style="display: block;">
-               <ul class="nav">
-                   <!-- Main menu -->
 
-                   <li class="submenu">
-                       <a href="#">
-                           <i class="glyphicon glyphicon-list"></i> Products
-                           <span class="caret pull-right"></span>
-                       </a>
-                       <!-- Sub menu -->
-                       <ul>
-                           <li><a href="{{url('/admin/addProduct')}}">Add Products</a></li>
-                           <li><a href="{{url('/admin/products')}}">View Products</a></li>
-                       </ul>
-                   </li>
-
-                     <li class="submenu">
-                       <a href="#">
-                           <i class="glyphicon glyphicon-list"></i> Categories
-                           <span class="caret pull-right"></span>
-                       </a>
-                       <!-- Sub menu -->
-                       <ul>
-                           <li><a href="{{url('/admin/addCat')}}">Add Category</a></li>
-                           <li><a href="{{url('/admin/categories')}}">View Categories</a></li>
-                       </ul>
-                   </li>
-               </ul>
-           </div>
-       </div>
-       */?>
         <aside>
             <div id="sidebar"  class="nav-collapse ">
                 <!-- sidebar menu start-->
@@ -48,8 +16,9 @@
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li><a href="{{url('/admin/viewOrders')}}">View Orders</a></li>
-                            {{-- <li><a href="{{url('/admin/products')}}">View Products</a></li> --}}
+                            <li><a href="{{url('/admin/pendingOrders')}}">Pending</a></li>
+                            <li><a href="{{ url('/admin/approvedOrders') }}">Approved</a></li>
+                            <li><a href="">Canceled</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -65,37 +34,35 @@
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
-                            <i class="icon_desktop"></i>
-                            <span>Categories</span>
-                            <span class="menu-arrow arrow_carrot-right"></span>
-                        </a>
-                        <ul class="sub">
-                          <li><a class="" href="{{url('/admin/addCat')}}">Add Category</a></li>
-
-                            <li><a class="" href="{{url('/admin/categories')}}">View Categories</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:;" class="">
                             <i class="icon_profile"></i>
                             <span>Users</span>
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li><a href="">Add User</a></li>
-                            <li><a href="}">View Users</a></li>
+                            <li><a href="{{url('/admin/addUser')}}">Add User</a></li>
+                            <li><a href="{{url('/admin/users')}}">View Users</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
-                            <i class="icon_map_alt"></i>
-                            <span>Locations</span>
+                            <i class="icon_tool"></i>
+                            <span>Settings</span>
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li><a href="">Add Location</a></li>
-                            <li><a href="}">View Locations</a></li>
+                            <li><a href="{{url('/admin/categories')}}">Category</a></li>
+                            <li><a href="">Locations</a></li>
+                            <li><a href="{{url('admin/addPropertyAll')}}">Add Properties</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_datareport"></i>
+                            <span>Reports</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="">Sales Report</a></li>
                         </ul>
                     </li>
 

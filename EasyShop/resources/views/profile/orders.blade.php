@@ -5,8 +5,6 @@
     table td { padding:10px
     }</style>
 
-
-
 <section id="cart_items">
     <div class="container">
         <div class="breadcrumbs">
@@ -21,32 +19,63 @@
         <div class="row">
             @include('profile.menu')
             <div class="col-md-8">
+                @if(session('msg'))
+                <div class="alert alert-info">  
+                    <a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                    {{session('msg')}}
+                
+                </div>
+                @endif
                <h3 ><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>,  Your Orders</h3>
                 <table class="table table-responsive">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Product name</th>
-                            <th>Product Code</th>
                             <th>Order Total</th>
                             <th>Order Status</th>
+                            
 
-                            <th>Details</th>
+                            <th>Action</th>
 
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach($orders as $order)
-                        <tr>
-                            <td>{{$order->created_at}}</td>
-                            <td>{{ucwords($order->pro_name)}}</td>
-                            <td>{{$order->pro_code}}</td>
-                            <td>{{$order->total}}</td>
-                            <td>{{$order->status}}</td>
-                            <td>View</td>
+                        
+                    @foreach($orders as $order)
+                    @foreach($order as $list)
+                        
+                        <tr>@if ($loop->first)
+                            <td>{{ucwords($list->created_at)}}</td>
+                            <td>₱ {{$list->total}}</td>
+                            <td style="color: green;">{{$list->status}}</td>
+                            
+                            <td><a href="" class="btn btn-default add-to-cart">Cancel</a></td>
                         </tr>
-                        @endforeach
+                        @endif
+                        {{-- <tr>
+                            <td>Product Name: {{ucwords($order->pro_name)}}</td>
+                            <td>Product Price: {{$order->pro_price}}</td>
+                            <td>Quantity: {{$order->qty}}</td></tr>
+                        <tr>
+                            <td>{{ucwords($order->created_at)}}</td>
+                            <td>{{$order->total}}</td>
+                            <td style="color: green;">{{$order->status}}</td>
+                            
+                            <td><a href="" class="btn btn-default add-to-cart">Cancel</a></td>
+                        </tr> --}}
+                        <tr>
+                            <td>Product Name: {{ucwords($list->pro_name)}}</td>
+                            <td>Product Price: ₱ {{$list->pro_price}}</td>
+                            <td>Quantity: {{$list->qty}}</td>
+                        </tr>
+                        
+                        
+                    @endforeach
+                    @endforeach
+                            
+                        
+                        
                     </tbody>
 
                 </table>

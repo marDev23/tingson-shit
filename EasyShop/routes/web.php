@@ -92,7 +92,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::post('submitAlt','AdminController@submitAlt');
     Route::get('/users','AdminController@users');
     Route::get('/updateRole','AdminController@updateRole');
-    Route::get('/viewOrders', 'AdminController@view_orders');
+    Route::get('/banUser', 'AdminController@banUser');
+    Route::get('/addUser', 'AdminController@addUser');
+    Route::post('/add_user', 'AdminController@add_user');
+    Route::get('/UserEditForm/{id}', 'AdminController@userEditForm');
+    Route::post('/editUser', 'AdminController@editUser');
+    Route::get('/deleteUser/{id}', 'AdminController@deleteUser');
+    Route::get('/pendingOrders', 'AdminController@pending_orders');
+    Route::get('/pro_preview/{id}', 'AdminController@proPreview');
+    Route::get('/approve_order/{id}', 'AdminController@approveOrder');
+    Route::get('/approvedOrders', 'AdminController@approved_orders');
 
 
     //import products

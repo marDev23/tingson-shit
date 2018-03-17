@@ -63,7 +63,7 @@
                   <div class="panel-heading">
                    <div class="panel-title">
                      Update Proprities
-                     <a href="" class="btn btn-info pull-right"
+                     <a href="{{url('admin/addPropertyAll')}}" class="btn btn-info pull-right"
                      style="margin:-6px; color:#fff">Add more</a>
                    </div>
                    </div>

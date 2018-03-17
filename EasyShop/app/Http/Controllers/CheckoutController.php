@@ -23,6 +23,8 @@ class CheckoutController extends Controller {
     }
 
     public function formvalidate(Request $request) {
+        $this->validate($request, [
+            'reciept_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
         $file = $request->file('reciept_img');
         $filename = $file->getClientOriginalName();
 

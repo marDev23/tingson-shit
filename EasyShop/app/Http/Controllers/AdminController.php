@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\products;
 use Illuminate\Http\Request;
@@ -9,6 +9,7 @@ use Storage;
 use App\pro_cat;
 use Image;
 use App\products_properties;
+use App\User;
 
 class AdminController extends Controller {
 
@@ -247,12 +248,63 @@ class AdminController extends Controller {
     }
     public function updateRole(Request $request){
       $userId = $request->userID;
-       $role_val = $request->role_val;
+      $role_val = $request->role_val;
 
       $upd_role = DB::table('users')->where('id',$userId)->update(['admin' =>$role_val]);
       if($upd_role){
-        echo "role is updated successfully";
+        echo "Updated Successfully";
       }
+    }
+    public function banUser(Request $request){
+      $userId = $request->userID;
+      $ban_val = $request->ban_val;
+
+      DB::table('users')->where('id',$userId)->update(['isBan' =>$ban_val]);
+    }
+    public function addUser() {
+      return view('admin.addUser');
+    }
+    public function add_user(Request $request){
+      $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|email|max:255|unique:users',
+        'password' => 'required|min:6',
+      ]);
+
+      $user = new User;
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = Hash::make($request->password);
+      $user->save();
+
+      return back()->with('msg', 'User Successfully Added');
+    }
+
+    public function userEditForm($id) {
+      $users = DB::table('users')->where('id', '=', $id)->get(); 
+        return view('admin.userEditForm', compact('users', $users));
+    }
+    public function editUser(Request $request){
+
+        $user_id = $request->id;
+        $user_name = $request->name;
+        $user_email = $request->email;
+        $user_password = Hash::make($request->password);
+        
+
+        DB::table('users')->where('id', $user_id)->update([
+            'name' => $user_name,
+            'email' => $user_email,
+            'password' => $user_password,
+
+        ]);
+
+        return redirect('/admin/users')->with('msg', 'Product Successfully Updated');
+    }
+
+    public function deleteUser($id){
+      $users = DB::table('users')->where('id', '=', $id)->delete(); 
+      return redirect('/admin/users')->with('msg', 'Product Successfully Deleted');
     }
 
     public function import_products(Request $request){
@@ -284,8 +336,47 @@ class AdminController extends Controller {
 
     }
 
-    public function view_orders() {
-      return view('admin.orders');
+    public function pending_orders() {
+
+      $data = DB::table('orders')
+      ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+      ->select('users.*', 'orders.*')
+      ->where('orders.status', 'pending')
+      ->orderBy('orders.created_at', 'DESC')
+      ->get();
+      // ->groupBy('created_at');
+        // dd($data);
+      return view('admin.pending_orders', compact('data'));
+    }
+
+    public function proPreview($id) {
+      $data = DB::table('orders_products')
+      ->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')
+      ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
+      ->leftJoin('address', 'address.user_id', '=', 'orders.user_id')
+      ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+      ->select('users.*', 'address.*', 'products.*', 'orders_products.*', 'orders.*')
+      ->where('orders_products.orders_id', $id)
+      ->get();
+
+      // dd($data);
+      return view('admin.product_view', compact('data'));
+    }
+
+    public function approveOrder($id) {
+      DB::table('orders')->where('id', '=', $id)->update(['status' => 'approved']);
+      return back();
+    }
+    public function approved_orders() {
+      $data = DB::table('orders')
+      ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+      ->select('users.*', 'orders.*')
+      ->where('orders.status', 'approved')
+      ->orderBy('orders.created_at', 'DESC')
+      ->get();
+      // ->groupBy('created_at');
+        // dd($data);
+      return view('admin.approved_orders', compact('data'));
     }
 
 

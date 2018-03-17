@@ -7,38 +7,54 @@
         @include('admin.sidebar')
 
         <section id="main-content">
-            <section class="wrapper">
-              <section class="panel">
-                          <div id="c-slide" class="carousel slide auto panel-body">
-                              <ol class="carousel-indicators out">
-                                  <li class="" data-slide-to="0" data-target="#c-slide"></li>
-                                  <li class="active" data-slide-to="1" data-target="#c-slide"></li>
-                                  <li class="" data-slide-to="2" data-target="#c-slide"></li>
-                              </ol>
-                              <div class="carousel-inner">
-                                  <div class="item text-center">
-                                      <h3>Creative is new model of Admin</h3>
-                                      <small class="">Based on Bootstrap 3</small>
-                                  </div>
-                                  <div class="item text-center active">
-                                      <h3>Massive UI Elements</h3>
-                                      <small class="">Fully Responsive</small>
-                                  </div>
-                                  <div class="item text-center">
-                                      <h3>Well Documentation</h3>
-                                      <small class="">Easy to Use</small>
-                                  </div>
-                              </div>
-                              <a data-slide="prev" href="#c-slide" class="left carousel-control">
-                                  <i class="arrow_carrot-left_alt2"></i>
-                              </a>
-                              <a data-slide="next" href="#c-slide" class="right carousel-control">
-                                  <i class="arrow_carrot-right_alt2"></i>
-                              </a>
-                          </div>
-                      </section>
-            </section>
+          <section class="wrapper">            
+              <!--overview start-->
+              <div class="row">
+              <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+              </div>
+            </div>
+                    
+                  <div class="row">
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <a href="" style="color:white;">
+                <div class="info-box blue-bg">
+                  <div class="count">6.674</div>
+                  <div class="title">Pending Orders</div>           
+                </div><!--/.info-box--> 
+                </a>    
+              </div><!--/.col-->
+              
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <a href="">
+                <div class="info-box brown-bg">
+                  <div class="count">7.538</div>
+                  <div class="title">Approved Orders</div>            
+                </div><!--/.info-box--> 
+                </a>    
+              </div><!--/.col-->  
+              
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <a href="" style="color:white;">
+                <div class="info-box dark-bg">
+                  <div class="count">4.362</div>
+                  <div class="title">Canceled Orders</div>            
+                </div><!--/.info-box--> 
+                </a>    
+              </div><!--/.col-->
+              
+              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <a href="" style="color:white;">
+                <div class="info-box green-bg">
+                  <div class="count">1.426</div>
+                  <div class="title">Delivered Orders</div>            
+                </div><!--/.info-box-->
+                </a>     
+              </div><!--/.col-->
+              
+            </div><!--/.row-->
           </section>
+        </section>
 
 </section>
 

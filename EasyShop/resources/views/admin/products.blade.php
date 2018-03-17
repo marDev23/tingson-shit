@@ -45,13 +45,16 @@ $(document).ready(function(){
         <section id="main-content">
             <section class="wrapper">
           <!-- import div here-->
-        <div style="padding:10px;" class="col-md-12">
+        {{-- <div style="padding:10px;" class="col-md-12">
           <form action="{{url('/admin/import_products')}}" method="post" enctype="multipart/form-data">
             {{csrf_field()}}
             <input type="file" name="file">
             <p style="color:red">{{$errors->first('file')}}</p>
             <input type="submit" value="import" class="btn btn-success"/>
           </form>
+        </div> --}}
+        <div style="padding:10px;" class="col-md-12">
+            <a href="{{url('admin/addProduct')}}" class="btn btn-sm btn-info">Add Products</a>
         </div>
                 <div class="content-box-large">
                     <h1>Products</h1>

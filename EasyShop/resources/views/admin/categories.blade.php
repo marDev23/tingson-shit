@@ -6,9 +6,11 @@
         @include('admin.sidebar')
         <section id="main-content">
             <section class="wrapper">
-
+                <div style="padding:10px;" class="col-md-12">
+                    <a href="{{url('admin/addCat')}}" class="btn btn-sm btn-info">Add Categories</a>
+                </div>
                 <div class="content-box-large">
-                    <h1>View Categories</h1>
+                    <h1>Categories</h1>
 
 
                     <table class="table table-striped">
@@ -16,7 +18,7 @@
                                 <th>Category ID</th>
                                 <th>Category Name</th>
                                 <th>Status</th>
-                                <th>update</th>
+                                <th>Update</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>

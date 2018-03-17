@@ -48,7 +48,7 @@
                             <br/>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                            {!! Form::close() !!}
+                        {!! Form::close() !!}
                         </div>
 
 
@@ -60,11 +60,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="content-box-header">
-                                <div class="panel-title">Add Properties<div>
+                                {{-- <div class="panel-title">Add Properties<div>
 
                                 <div align="center">
                                       <a href="{{url('admin/addPropertyAll')}}" class="btn btn-sm btn-info">Add Property</a>
-                                </div>
+                                </div> --}}
 
 
                             </div>
@@ -99,7 +99,7 @@
 
 
 
-      <section>
+      </section>
 </section>
 
 @endsection
