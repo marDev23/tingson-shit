@@ -111,7 +111,7 @@ $(document).ready(function(){
                         </div>
 
                     <div class="shipping text-center"><!--shipping-->
-                        <img src="{{url('../')}}/theme/images/home/shipping.jpg" alt="" />
+                        <img src="{{url('../')}}/theme/images/home/blahh.jpg" alt="" />
                     </div><!--/shipping-->
 
                 </div>

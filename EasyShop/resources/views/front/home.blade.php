@@ -15,7 +15,7 @@
 
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <h1><span>TINGSON FURNITURE</h1>
                                         <h2>Free E-Commerce Template</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -24,10 +24,10 @@
                                     <div class="col-sm-6">
                                         <img src="{{asset('theme/images/home/girl1.jpg')}}" class="girl img-responsive" alt="" />
                                         <img src="{{asset('theme/images/home/pricing.png')}}"  class="pricing" alt="" />
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="item">
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <h1><span>TINGSON FURNITURE</h1>
                                         <h2>100% Responsive Design</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -36,11 +36,11 @@
                                     <div class="col-sm-6">
                                        <img src="{{asset('theme/images/home/girl1.jpg')}}" class="girl img-responsive" alt="" />
                                         <img src="{{asset('theme/images/home/pricing.png')}}"   class="pricing" alt="" />
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="item">
-                                    <div class="col-sm-6">
+                                    {{-- <div class="col-sm-6">
                                         <h1>TINGSON FURNITURE</h1>
                                         <h2>Free Ecommerce Template</h2>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -49,7 +49,7 @@
                                     <div class="col-sm-6">
                                         <img src="images/home/girl3.jpg" class="girl img-responsive" alt="" />
                                         <img src="images/home/pricing.png" class="pricing" alt="" />
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                             </div>
@@ -132,9 +132,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="shipping text-center"><!--shipping-->
-                            <img src="{{url('../')}}/theme/images/home/shipping.jpg" alt="" />
-                        </div><!--/shipping-->
                         
                     </div><!--/category-productsr-->
 
@@ -171,7 +168,7 @@
                             </div><!--/price-range--> --}}
 
                             <div class="shipping text-center"><!--shipping-->
-                                <img src="images/home/shipping.jpg" alt="" />
+                                <img src="{{url('theme/images/home/blahh.jpg')}}" alt="" />
                             </div><!--/shipping-->
 
                         </div>
@@ -209,12 +206,12 @@
                                             <div class="overlay-content">
                                                 <h2>
                                                   @if($product->spl_price==0)
-                                                  ${{$product->pro_price}}
+                                                  ₱{{$product->pro_price}}
                                                   @else
                                                 <img src="{{ asset('theme/images/shop/sale.png') }}" style="width:60px"/>
                                                 <span style="text-decoration:line-through; color:#ddd">
-                                                   ${{$product->pro_price}} </span>
-                                                   ${{$product->spl_price}}
+                                                   ₱{{$product->pro_price}} </span>
+                                                   ₱{{$product->spl_price}}
                                                   @endif
                                                 </h2>
                                                 <p><?php echo $product->pro_name; ?></p>

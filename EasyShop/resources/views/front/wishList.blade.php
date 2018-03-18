@@ -4,9 +4,9 @@
 
 
 <section id="advertisement">
-    <div class="container">
+    {{-- <div class="container">
         <img src="{{asset('theme/images/shop/advertisement.jpg')}}" alt="" />
-    </div>
+    </div> --}}
 </section>
 
 <section>
@@ -87,7 +87,7 @@
                     </div><!--/price-range--> --}}
 
                     <div class="shipping text-center"><!--shipping-->
-                        <img src="images/home/shipping.jpg" alt="" />
+                        <img src="{{url('theme/images/home/blahh.jpg')}}" alt="" />
                     </div><!--/shipping-->
 
                 </div>
