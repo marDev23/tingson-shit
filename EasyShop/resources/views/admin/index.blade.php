@@ -17,34 +17,34 @@
                     
                   <div class="row">
               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <a href="" style="color:white;">
+                <a href="{{ url('/admin/pendingOrders') }}">
                 <div class="info-box blue-bg">
-                  <div class="count">6.674</div>
+                  <div class="count">{{count($data3)}}</div>
                   <div class="title">Pending Orders</div>           
                 </div><!--/.info-box--> 
                 </a>    
               </div><!--/.col-->
               
               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <a href="">
+                <a href="{{ url('/admin/approvedOrders') }}">
                 <div class="info-box brown-bg">
-                  <div class="count">7.538</div>
+                  <div class="count">{{count($data2)}}</div>
                   <div class="title">Approved Orders</div>            
                 </div><!--/.info-box--> 
                 </a>    
               </div><!--/.col-->  
               
               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <a href="" style="color:white;">
+                <a href="{{ url('/admin/canceledOrders') }}">
                 <div class="info-box dark-bg">
-                  <div class="count">4.362</div>
+                  <div class="count">{{count($data)}}</div>
                   <div class="title">Canceled Orders</div>            
                 </div><!--/.info-box--> 
                 </a>    
               </div><!--/.col-->
               
               <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                <a href="" style="color:white;">
+                <a href="">
                 <div class="info-box green-bg">
                   <div class="count">1.426</div>
                   <div class="title">Delivered Orders</div>            

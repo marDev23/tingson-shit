@@ -15,7 +15,6 @@
   	<link href="{{asset('admin_theme/css/widgets.css')}}" rel="stylesheet">
       <link href="{{asset('admin_theme/css/style.css')}}" rel="stylesheet">
       <link href="{{asset('admin_theme/css/style-responsive.css')}}" rel="stylesheet" />
-
 <style>
 #main-content{min-height: 550px}
 }

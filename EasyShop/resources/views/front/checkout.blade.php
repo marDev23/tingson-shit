@@ -1,7 +1,6 @@
 @extends('front.master')
 
 @section('content')
-
 <section id="cart_items">
     <?php if ($cartItems->isEmpty()) { ?>
     <section id="cart_items">
@@ -42,33 +41,41 @@
                         <div class="shopper-info">
                             <p>Shopper Information</p>
                             <?php if (empty($profile_address)) { ?>
-                            <input type="text" name="fullname"  placeholder="Display Name" class="form-control"  value="{{old('fullname')}}">
+                            <hr>
+                            <input type="text" name="fullname"  placeholder="Full Name" class="form-control"  value="{{old('fullname')}}" required>
 
                             <span style="color:red">{{ $errors->first('fullname') }}</span>
+
                             <hr>
-                            <input type="text" placeholder="City/Municipal" name="state" class="form-control" value="{{old('state')}}">
+
+                            <select name="country" class="country form-control" required>
+                                <option value="{{ old('country') }}" selected="true" disabled="true">Select Province</option>
+                                @foreach($provinces as $province)
+                                <option value="{{$province->id}}">{{$province->name}}</option>
+                                @endforeach
+                            </select>
+                            <span style="color:red">{{ $errors->first('country') }}</span>
+                            <hr>
+                            <select name="state" class="state form-control" required>
+
+                                <option value="0" disabled="true" selected="true">Select City/Municipal</option>
+                            </select>
 
                             <span style="color:red">{{ $errors->first('state') }}</span>
 
                             <hr>
-                            <input type="text" placeholder="Zip" name="pincode" class="form-control" value="{{ old('pincode') }}">
-
-                            <span style="color:red">{{ $errors->first('pincode') }}</span>
-
-                            <hr>
-                            <input type="text" placeholder="Baranggay" name="city" class="form-control" value="{{ old('city') }}">
+                            <select name="city" class="city form-control" required>
+                                <option value="0" disabled="true" selected="true">Select Baranggay</option>
+                            </select>
 
                             <span style="color:red">{{ $errors->first('city') }}</span>
 
                             <hr>
+                            <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{ old('pincode') }}">
 
-                            <select name="country" class="form-control">
-                                <option value="{{ old('country') }}" selected="selected">Select City/Municipal</option>
-                                @foreach($provinces as $province)
-                                <option value="{{$province->name}}">{{$province->name}}</option>
-                                @endforeach
-                            </select>
-                            <span style="color:red">{{ $errors->first('country') }}</span>
+                            <span style="color:red">{{ $errors->first('pincode') }}</span>
+
+                            
                             <?php } ?>
 
                         </div>
@@ -77,7 +84,7 @@
                     <div class="col-sm-4">
                         <div class="order-message">
                             <p>Upload Reciept</p>
-                            <textarea disabled name="message"  placeholder="Notes about your order, Special Notes for Delivery" rows="6"></textarea>
+                            <textarea disabled name="message"  placeholder="Please! Provide a clear image of the payment reciept. If you haven't done paying, Please! do pay in your nearest Padala Center. Then take a snap (take photo) of it." rows="6"></textarea>
                             <input type="file" name="reciept_img" class="form-control">
                             <span style="color:red">{{ $errors->first('reciept_img') }}</span>
                         </div>
@@ -108,13 +115,13 @@
                 @foreach($cartItems as $cartItem)
                     <tr>
                         <td class="cart_product">
-                            <a href=""><img src="{{ asset('upload/images/small') }}/{{$cartItem->options->img}}" alt=""></a>
+                            <a href=""><img style="height: 50px; height: 50px;" src="{{ asset('public/products/small') }}/{{$cartItem->options->img}}" alt=""></a>
                         </td>
                         <td class="cart_description">
                             <h4><a href="">{{$cartItem->name}}</a></h4>
                         </td>
                         <td class="cart_price">
-                            <p>₱{{$cartItem->price}}</p>
+                            <p>₱ {{number_format($cartItem->price, 2, '.', ',')}}</p>
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
@@ -124,7 +131,7 @@
                             </div>
                         </td>
                         <td class="cart_total">
-                            <p class="cart_total_price">₱{{$cartItem->subtotal}}</p>
+                            <p class="cart_total_price">₱ {{number_format($cartItem->subtotal, 2, '.', ',')}}</p>
                         </td>
                         <td class="cart_delete">
                             <a class="cart_quantity_delete" href="{{url('/cart/remove')}}/{{$cartItem->rowId}}"><i class="fa fa-times"></i></a>
@@ -159,6 +166,11 @@
                 </tbody>
             </table>
         </div>
+        <div class="container">
+        
+        <div class="col-sm-10">
+            
+        </div>
         <div class="payment-options">
             <span>
                 <input type="hidden" name="pay" value="Padala" checked="checked" id="cash">
@@ -168,6 +180,7 @@
             <input type="submit" value="Place Order(s)" class="btn btn-primary" id="cashbtn">
             </span>
         </div>
+        </div>
     </div>
 
       </form>
@@ -176,23 +189,102 @@
 
 
 
-        {{-- <script>
+        <script>
+            $(document).ready(function(){
+                $(document).on('change','.country',function(){
+                    console.log('changed');
+                    var cat_id=$(this).val();
+                    // console.log(cat_id);
+                    var div=$(this).parent();
 
-            $('#paypalbtn').show();
-          $('#cashbtn').hide();
+                    var op=" ";
 
-            $(':radio[id=paypal]').change(function(){
-                $('#paypalbtn').show();
-                $('#cashbtn').hide();
+                    $.ajax({
+                        type:'get',
+                        url:'{!!URL::to('findlocation_mun')!!}',
+                        data:{'id':cat_id},
+                        success:function(data){
+                            //console.log('success');
 
+                            console.log(data);
+
+                            //console.log(data.length);
+                            op+='<option value="0" selected disabled>Choose City/Municipal</option>';
+                            for(var i=0;i<data.length;i++){
+                            op+='<option value="'+data[i].id+'">'+data[i].city_mun+'</option>';
+                           }
+
+                           div.find('.state').html(" ");
+                           div.find('.state').append(op);
+                        },
+                        error:function(){
+
+                        }
+                    });
+                });
+
+                $(document).on('change','.state',function(){
+                    console.log('changed');
+                    var af=$(this).val();
+                    // console.log(cat_id);
+                    var ag=$(this).parent();
+
+                    var ad=" ";
+
+                    $.ajax({
+                        type:'get',
+                        url:'{!!URL::to('findlocation_bar')!!}',
+                        data:{'id':af},
+                        success:function(data){
+                            //console.log('success');
+
+                            console.log(data);
+
+                            //console.log(data.length);
+                            ad+='<option value="0" selected disabled>Choose Baranggay</option>';
+                            for(var i=0;i<data.length;i++){
+                            ad+='<option value="'+data[i].id+'">'+data[i].baranggay+'</option>';
+                           }
+
+                           ag.find('.city').html(" ");
+                           ag.find('.city').append(ad);
+                        },
+                        error:function(){
+
+                        }
+                    });
+                });
+
+                $(document).on('change','.city',function () {
+                var prod_id=$(this).val();
+
+                var a=$(this).parent();
+                console.log(prod_id);
+                var op="";
+                $.ajax({
+                    type:'get',
+                    url:'{!!URL::to('findlocation_zip')!!}',
+                    data:{'id':prod_id},
+                    dataType:'json',//return data will be json
+                    success:function(data){
+                        // console.log("price");
+                        console.log(data.zip);
+
+                        // here price is coloumn name in products table data.coln name
+
+                        a.find('.pincode').val(data.zip);
+
+                    },
+                    error:function(){
+
+                    }
+                });
+
+
+        });
             });
-
-              $(':radio[id=cash]').change(function(){
-                $('#paypalbtn').hide();
-                $('#cashbtn').show();
-
-            });
-            </script> --}}
+           
+        </script>
     <?php } ?>
 </section> <!--/#cart_items-->
 

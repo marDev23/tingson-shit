@@ -9,6 +9,9 @@
 
              <div class="col-md-7">
                 <div class="content-box-large ">
+                  @if(session('msg'))
+                  <div class="alert alert-success">  {{session('msg')}}</div>
+                  @endif
                   {!! Form::open(['url' => 'admin/editProduct',  'method' => 'post']) !!}
                      <div class="panel-heading col-md-8">
                       <div class="panel-title">Edit Product
@@ -104,7 +107,7 @@
                           </div>
                         </div>
 
-                               <img src="{{ asset('upload/images/medium') }}/{{$product->pro_img}}"
+                               <img src="{{ asset('public/products/medium') }}/{{$product->pro_img}}"
                                alt="" class="img-rounded" width="150px" height="150px"/>
                                    <br> <br>
                                 <p><a href="{{url('/admin/EditImage')}}/{{$product->id}}"

@@ -9,7 +9,7 @@
             <section class="wrapper">
 
                 <div class="content-box-large">
-                    <h1>Add Category</h1>
+                    <h1>Change Product Image</h1>
 
                     <div class="col-md-5">
                         {!! Form::open(['url' => 'admin/editProImage',  'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
@@ -17,14 +17,14 @@
                     @foreach($Products as $product)
                     <input type="hidden" name="id" class="form-control" value="{{$product->id}}">
 
-                    <input type="text" class="form-control" value="{{$product->pro_name}}" readonly="readonly">
+                    <input type="hidden" class="form-control" value="{{$product->pro_name}}">
                     <br/>
-                    <img src="{{url('/')}}/upload/images/medium/<?php echo $product->pro_img; ?>" alt="" width="150px" height="150px"/>
+                    <img src="{{url('/')}}/public/products/medium/<?php echo $product->pro_img; ?>" alt="" width="150px" height="150px"/>
 
                     <br/>
                     Select Image:
-                    <input type="file" name="new_image" class="form-control" >
-
+                    <input type="file" name="new_image" class="form-control" required>
+                    <span style="color:red">{{ $errors->first('new_image') }}</span>
                     @endforeach
                     <br/>
                     <input type="submit" value="Upload Image" class="btn btn-success pull-right">

@@ -110,9 +110,9 @@
                                 <div class="single-products">
                                     <div class="productinfo text-center">
                                         <a href="{{url('/product_details')}}">
-                                            <img src="{{ asset('upload/images/large') }}/{{$product->pro_img}}" alt="" />
+                                            <img src="{{ asset('public/products/large') }}/{{$product->pro_img}}" alt="" />
                                         </a>
-                                        <h2>₱<?php echo $product->pro_price; ?></h2>
+                                        <h2>₱ {{number_format($product->pro_price, 2, '.', ',')}}</h2>
 
                                         <p><a href="{{url('/product_details')}}"><?php echo $product->pro_name; ?></a></p>
                                         <a href="{{url('/cart/addItem')}}/<?php echo $product->id; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Move to cart</a>
@@ -120,7 +120,7 @@
                                     <a href="{{url('/product_details')}}/<?php echo $product->id; ?>">
                                         <div class="product-overlay">
                                             <div class="overlay-content">
-                                                <h2>₱<?php echo $product->pro_price; ?></h2>
+                                                <h2>₱ {{number_format($product->pro_price, 2, '.', ',')}}</h2>
                                                 <p><?php echo $product->pro_name; ?></p>
                                                 <a href="{{url('/cart/addItem')}}/<?php echo $product->id; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Move to Cart</a>
                                             </div>
@@ -144,7 +144,7 @@
                                     <a href="{{url('/product_details')}}">
                                         <img src="{{ asset('upload/images/large') }}/{{$product->options->img}}" alt="" />
                                     </a>
-                                    <h2>₱<?php echo $product->price; ?></h2>
+                                    <h2>₱ {{number_format($product->pro_price, 2, '.', ',')}}</h2>
 
                                     <p><a href="{{url('/product_details')}}"><?php echo $product->name; ?></a></p>
                                     <a href="{{url('/cart/addItem')}}/<?php echo $product->id; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Move to cart</a>
@@ -152,7 +152,7 @@
                                 <a href="{{url('/product_details')}}/<?php echo $product->id; ?>">
                                     <div class="product-overlay">
                                         <div class="overlay-content">
-                                            <h2>₱<?php echo $product->price; ?></h2>
+                                            <h2>₱ {{number_format($product->pro_price, 2, '.', ',')}}</h2>
                                             <p><?php echo $product->name; ?></p>
                                             <a href="{{url('/cart/addItem')}}/<?php echo $product->id; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Move to Cart</a>
                                         </div>

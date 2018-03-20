@@ -22,7 +22,7 @@
                               <option value="2">Office Furniture</option>
                               <option value="3">Decor</option>
                             </select>
-                        </tr>
+                        </td>
                         <tr>
                             <td> Catgeory Name:</td>
                             <td>    <input type="text" name="cat_name" class="form-control"></td>

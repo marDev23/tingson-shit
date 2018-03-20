@@ -132,7 +132,7 @@ var proDum = $('#proDum').val();
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="{{ asset('upload/images/large') }}/{{$value->pro_img}}" alt="" />
+                            <img src="{{ asset('public/products/large') }}/{{$value->pro_img}}" alt="" />
                             <h3>ZOOM</h3>
                         </div>
 
@@ -150,13 +150,13 @@ var proDum = $('#proDum').val();
                               <span>
                                   <span id="price">
                                     @if($value->spl_price ==0)
-                                    ₱{{$value->pro_price}}
+                                    ₱ {{number_format($product->pro_price, 2, '.', ',')}}
                                      <input type="hidden" value="{{$value->pro_price}}"
                                       name="newPrice"/>
                                       @else
                                     <b style="text-decoration:line-through; color:#ddd">
-                                      ₱{{$value->pro_price}} </b>
-                                       ₱{{$value->spl_price}}
+                                      ₱ {{number_format($product->pro_price, 2, '.', ',')}} <b>
+                                      ₱ {{number_format($product->spl_price, 2, '.', ',')}}
                                        <input type="hidden" value="{{$value->spl_price}}"
                                         name="newPrice"/>
                                       @endif

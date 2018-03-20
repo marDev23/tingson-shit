@@ -30,6 +30,12 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="content-box-large">
+              @if(session('msg-apr'))
+                <div class="alert alert-success">  {{session('msg-apr')}}</div>
+                @endif
+                @if(session('msg'))
+                <div class="alert alert-success">  {{session('msg')}}</div>
+                @endif
                 <h1>Pending Orders</h1>
                 <table class="table table-striped">
                     <thead>
@@ -54,7 +60,11 @@
                                 <td><a href="{{url('/admin/approve_order')}}/{{$orders->id}}"
                                    class="btn btn-success btn-small">Approve</a>
                                <a href="{{url('/admin/pro_preview')}}/{{$orders->id}}"
-                                   class="btn btn-primary btn-small">View</a></td>
+                                   class="btn btn-primary btn-small">View</a>
+                                 <a href="{{ url('/admin/cancel_order') }}/{{$orders->id}}"
+                                      class="btn btn-warning btn-small">Cancel</a>
+                                    <a href="{{ url('/admin/delete_order') }}/{{$orders->id}}"
+                                      class="btn btn-danger btn-small">Delete</a></td>
                             </tr>
                             @endforeach
                         </tbody>

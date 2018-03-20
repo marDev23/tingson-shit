@@ -224,9 +224,9 @@
 							<!-- user login dropdown start-->
 							<li class="dropdown">
 									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-											<span class="profile-ava">
+											{{-- <span class="profile-ava">
 													<img alt="" src="{{asset('admin_theme/img/avatar1_small.jpg')}}">
-											</span>
+											</span> --}}
 											<span class="username">{{Auth::user()->name}}</span>
 											<b class="caret"></b>
 									</a>

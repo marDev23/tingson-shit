@@ -57,6 +57,9 @@ $(document).ready(function(){
             <a href="{{url('admin/addProduct')}}" class="btn btn-sm btn-info">Add Products</a>
         </div>
                 <div class="content-box-large">
+                  @if(session('msg-dlt'))
+                  <div class="alert alert-danger">  {{session('msg-dlt')}}</div>
+                  @endif
                     <h1>Products</h1>
                     <table class="table table-striped">
                         <thead>
@@ -69,7 +72,7 @@ $(document).ready(function(){
                                 <th>Product Price</th>
                                 <th>Alt Images</th>
                                 <th>On Sale</th>
-                                <th>update</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <?php $count =1;?>
@@ -77,7 +80,7 @@ $(document).ready(function(){
 
                         <tbody>
                             <tr>
-                                <td> <img src="{{ asset('upload/images/small') }}/{{$product->pro_img}}" alt=""
+                                <td> <img src="{{ asset('public/products/small') }}/{{$product->pro_img}}" alt=""
                                    width="50px" height="50px"/></td>
                                 <td>{{ucwords($product->name)}}</td>
                                 <td>{{$product->id}}</td>
@@ -112,7 +115,9 @@ $(document).ready(function(){
                                   </td>
 
                                 <td><a href="{{url('/')}}/admin/ProductEditForm/{{$product->id}}"
-                                   class="btn btn-success btn-small">Edit</a></td>
+                                   class="btn btn-success btn-small">Edit</a>
+                                 <a href="{{ url('/admin/deleteProduct') }}/{{$product->id}}"
+                                   class="btn btn-danger btn-small">Delete</a></td>
                             </tr>
                         </tbody>
                         <?php $count++;?>

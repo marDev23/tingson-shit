@@ -9,7 +9,7 @@
             <section class="wrapper">
 
                 <div class="content-box-large">
-                    <h1>Add Category</h1>
+                    <h1>Edit Category</h1>
 
                     {!! Form::open(['url' => 'admin/editCat',  'method' => 'post']) !!}
                     <table class="table-borderless" style="height:200px; width: 400px">
@@ -29,6 +29,16 @@
 
                                 </select>
                             </td>
+                        </tr>
+                        <tr>
+                            <td> Parent Category:</td>
+                            <td>
+                            <select name="p_id" class="form-control">
+                              <option value="1">Home Furniture</option>
+                              <option value="2">Office Furniture</option>
+                              <option value="3">Decor</option>
+                            </select>
+                        </td>
                         </tr>
 
 

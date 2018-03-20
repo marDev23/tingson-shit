@@ -26,6 +26,13 @@
                 
                 </div>
                 @endif
+                @if(session('msg-cnl'))
+                <div class="alert alert-danger">  
+                    <a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                    {{session('msg-cnl')}}
+                
+                </div>
+                @endif
                <h3 ><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>,  Your Orders</h3>
                 <table class="table table-responsive">
                     <thead>
@@ -44,13 +51,22 @@
                         
                     @foreach($orders as $order)
                     @foreach($order as $list)
-                        
-                        <tr>@if ($loop->first)
+                        @if ($loop->first)
+                        <tr class="btn-default">
                             <td>{{ucwords($list->created_at)}}</td>
                             <td>₱ {{$list->total}}</td>
-                            <td style="color: green;">{{$list->status}}</td>
-                            
-                            <td><a href="" class="btn btn-default add-to-cart">Cancel</a></td>
+                            @if ($list->status == 'approved')
+                            <td style="color: green; text-transform: capitalize;">{{$list->status}}</td>
+                            @elseif ($list->status == 'pending')
+                            <td style="color: #FE980F; text-transform: capitalize;">{{$list->status}}</td>
+                            @elseif ($list->status == 'canceled')
+                            <td style="color: red; text-transform: capitalize;">{{$list->status}}</td>
+                            @endif
+                            @if ($list->status == 'pending')
+                            <td><a href="{{ url('/cancel_ordered') }}/{{$list->id}}" class="btn btn-default add-to-cart">Cancel</a></td>
+                            @else
+                            <td><button class="btn btn-default add-to-cart" disabled>Cancel</button></td>
+                            @endif
                         </tr>
                         @endif
                         {{-- <tr>

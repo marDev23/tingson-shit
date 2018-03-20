@@ -40,6 +40,10 @@ Route::group(['middleware' => 'auth'], function() {
         return view('profile.index');
     });
     Route::get('/orders', 'ProfileController@orders');
+    Route::get('/findlocation_mun', 'CheckoutController@findlocation_mun');
+    Route::get('/findlocation_bar', 'CheckoutController@findlocation_bar');
+    Route::get('/findlocation_zip', 'CheckoutController@findlocation_zip');
+    Route::get('/cancel_ordered/{id}', 'ProfileController@cancelOrdered');
 
     Route::get('/address', 'ProfileController@address');
     Route::post('/saveAddress', 'ProfileController@saveAddress');
@@ -74,6 +78,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
 
     Route::post('/editCat', 'AdminController@editCat');
     Route::get('ProductEditForm/{id}', 'AdminController@ProductEditForm');
+    Route::get('deleteProduct/{id}', 'AdminController@deleteProduct');
     Route::post('editProduct', 'AdminController@editProduct');
     Route::get('EditImage/{id}', 'AdminController@ImageEditForm');
     Route::post('editProImage', 'AdminController@editProImage');
@@ -102,6 +107,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::get('/pro_preview/{id}', 'AdminController@proPreview');
     Route::get('/approve_order/{id}', 'AdminController@approveOrder');
     Route::get('/approvedOrders', 'AdminController@approved_orders');
+    Route::get('/print_order/{id}', 'AdminController@printOrder');
+    Route::get('/cancel_order/{id}', 'AdminController@cancelOrder');
+    Route::get('/canceledOrders', 'AdminController@canceled_orders');
+    Route::get('/delete_order/{id}', 'AdminController@deleteOrder');
+    Route::get('/sales', 'AdminController@sales');
 
 
     //import products

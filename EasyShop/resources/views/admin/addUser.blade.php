@@ -34,7 +34,7 @@
 
                             Password:    <input type="password" name="password" class="form-control">
                             <br/>
-
+                            <input type="hidden" name="admin" value="1">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         {!! Form::close() !!}

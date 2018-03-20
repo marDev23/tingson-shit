@@ -1,5 +1,5 @@
 <div class="features_items"> <!--features_items marvin-->
-      <b> Total Products</b>:  {{$Products->total()}}
+      <b> Total Products</b>:  {{count($Products)}}
                     <h2 class="title text-center">
                        <?php
                         if (isset($msg)) {
@@ -16,17 +16,17 @@
                                 <div class="single-products">
                                     <div class="productinfo text-center">
                                         <a href="{{url('/product_details')}}">
-                                            <img src="{{ asset('upload/images/large') }}/<?php echo $product->pro_img; ?>" alt="" />
+                                            <img src="{{ asset('public/products/large') }}/<?php echo $product->pro_img; ?>" alt="" />
                                         </a>
 
                                         <h2 id="price">
                                           @if($product->spl_price==0)
-                                          ₱{{$product->pro_price}}
+                                          ₱ {{number_format($product->pro_price, 2, '.', ',')}}
                                           @else
                                           <img src="{{ asset('theme/images/shop/sale.png') }}" style="width:60px"/>
                                         <span style="text-decoration:line-through; color:#ddd">
-                                           ₱{{$product->pro_price}} </span>
-                                           ₱{{$product->spl_price}}
+                                           ₱ {{number_format($product->pro_price, 2, '.', ',')}} </span>
+                                           ₱ {{number_format($product->spl_price, 2, '.', ',')}}
                                           @endif
 
                                         </h2>
@@ -39,12 +39,12 @@
                                             <div class="overlay-content">
                                                 <h2>
                                                   @if($product->spl_price==0)
-                                                  ₱{{$product->pro_price}}
+                                                  ₱ {{number_format($product->pro_price, 2, '.', ',')}}
                                                   @else
                                                 <img src="{{ asset('theme/images/shop/sale.png') }}" style="width:60px"/>
                                                 <span style="text-decoration:line-through; color:#ddd">
-                                                   ₱{{$product->pro_price}} </span>
-                                                   ₱{{$product->spl_price}}
+                                                   ₱ {{number_format($product->pro_price, 2, '.', ',')}} </span>
+                                                   ₱ {{number_format($product->spl_price, 2, '.', ',')}}
                                                   @endif
                                                 </h2>
                                                 <p><?php echo $product->pro_name; ?></p>
@@ -57,12 +57,12 @@
                                             <div class="overlay-content">
                                                 <h2>
                                                   @if($product->spl_price==0)
-                                                  ₱{{$product->pro_price}}
+                                                  ₱ {{number_format($product->pro_price, 2, '.', ',')}}
                                                   @else
                                                 <img src="{{ asset('theme/images/shop/sale.png') }}" style="width:60px"/>
                                                 <span style="text-decoration:line-through; color:#ddd">
-                                                   ₱{{$product->pro_price}} </span>
-                                                   ₱{{$product->spl_price}}
+                                                   ₱ {{number_format($product->pro_price, 2, '.', ',')}} </span>
+                                                   ₱ {{number_format($product->spl_price, 2, '.', ',')}}
                                                   @endif
                                                 </h2>
                                                 <p><?php echo $product->pro_name; ?></p>

@@ -65,7 +65,7 @@ $(document).ready(function(){
 
 <tr>
 <td class="cart_product">
-    <a href="{{url('/product_details')}}/{{$cartItem->id}}"><img src="{{ asset('upload/images/small') }}/{{$cartItem->options->img}}" alt="" width="200px"></a>
+    <a href="{{url('/product_details')}}/{{$cartItem->id}}"><img style="width: 50px; height: 50px;" src="{{ asset('public/products/small') }}/{{$cartItem->options->img}}" alt="" width="200px"></a>
 </td>
 <td class="cart_description">
     <h4><a href="{{url('/product_details')}}/{{$cartItem->id}}" style="color:blue">{{$cartItem->name}}</a></h4>
@@ -86,7 +86,7 @@ $(document).ready(function(){
     </div>
 </td>
 <td class="cart_total">
-    <p class="cart_total_price">${{$cartItem->subtotal}}</p>
+    <p class="cart_total_price">₱ {{number_format($cartItem->subtotal, 2, '.', ',')}}</p>
 </td>
 <td class="cart_delete">
     <a class="cart_quantity_delete" style="background-color:red"

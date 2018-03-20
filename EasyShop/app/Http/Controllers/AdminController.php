@@ -14,8 +14,18 @@ use App\User;
 class AdminController extends Controller {
 
     public function index() {
+      $data = DB::table('orders')
+      ->where('orders.status', 'canceled')
+      ->get();
 
-    return view('admin.index');
+      $data2 = DB::table('orders')
+      ->where('orders.status', 'approved')
+      ->get();
+
+      $data3 = DB::table('orders')
+      ->where('orders.status', 'pending')
+      ->get();
+    return view('admin.index', compact('data', 'data2', 'data3'));
     }
 
     public function addpro_form(){
@@ -25,11 +35,25 @@ class AdminController extends Controller {
     }
 
     public function add_product(Request $request) {
-        $file = $request->file('pro_img');
-        $filename = $file->getClientOriginalName();
+        $this->validate($request, [
+            'pro_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'pro_name' => 'required',
+            'pro_price' => 'required|numeric',
+            'pro_info' => 'required',]);
 
-        $path = base_path() . '/public/upload/images/small';
-        $file->move($path, $filename);
+        $file = $request->file('pro_img');
+
+        $filename = time() . '.' . $file->getClientOriginalName();
+
+        $S_path = base_path() . '/public/public/products/small';
+        $M_path = base_path() . '/public/public/products/medium';
+        $L_path = base_path() . '/public/public/products/large';
+
+        $img = Image::make($file->getRealPath());
+        //$img->crop(300, 150, 25, 25);
+        $img->resize(100, 100)->save($S_path . '/' . $filename);
+        $img->resize(500, 500)->save($M_path . '/' . $filename);
+        $img->resize(1000, 1000)->save($L_path . '/' . $filename);
 
         $products = new products;
         $products->pro_name = $request->pro_name;
@@ -41,16 +65,19 @@ class AdminController extends Controller {
         $products->pro_img = $filename;
         $products->save();
 
-        $cat_data = DB::table('pro_cat')->get();
-
-        return view('admin.home', compact('cat_data'));
+        return back()->with('msg', 'Product Successfully Added!');
 
         //  return redirect()->action('AdminController@index')->with('status', 'Product Uploaded!');
     }
 
     public function view_products() {
 
-        $Products = DB::table('pro_cat')->rightJoin('products', 'products.cat_id', '=', 'pro_cat.id')->get(); // now we are fetching all products
+        $Products = DB::table('pro_cat')
+        ->rightJoin('products', 'products.cat_id', '=', 'pro_cat.id')
+        ->orderBy('products.id', 'DESC')
+        ->get(); // now we are fetching all products
+
+        // dd($Products);
 
 
         return view('admin.products', compact('Products'));
@@ -72,7 +99,9 @@ class AdminController extends Controller {
         $pro_cat->status = '0'; // by defalt enable
         $pro_cat->save();
 
-        $cats = DB::table('pro_cat')->orderby('id', 'DESC')->get();
+        $cats = DB::table('pro_cat')
+        ->orderby('id', 'DESC')
+        ->get();
 
         return view('admin.categories', compact('cats'));
     }
@@ -80,7 +109,9 @@ class AdminController extends Controller {
     // edit form for cat
     public function CatEditForm(Request $request) {
         $catid = $request->id;
-        $cats = DB::table('pro_cat')->where('id', $catid)->get();
+        $cats = DB::table('pro_cat')
+        ->where('id', $catid)
+        ->get();
         return view('admin.CatEditForm', compact('cats'));
     }
 
@@ -89,25 +120,39 @@ class AdminController extends Controller {
 
         $catid = $request->id;
         $catName = $request->cat_name;
+        $catP_id = $request->p_id;
         $status = $request->status;
-        DB::table('pro_cat')->where('id', $catid)->update(['name' => $catName, 'status' => $status]);
+        DB::table('pro_cat')->where('id', $catid)
+        ->update(['name' => $catName, 'p_id' => $catP_id, 'status' => $status]);
 
-        $cats = DB::table('pro_cat')->orderby('id', 'DESC')->get();
+        $cats = DB::table('pro_cat')
+        ->orderby('id', 'DESC')
+        ->get();
 
-        return view('admin.categories', compact('cats'));
+        return redirect('/admin/categories');
     }
 
     public function view_cats() {
 
-        $cats = DB::table('pro_cat')->get();
+        $cats = DB::table('pro_cat')
+        ->get();
 
         return view('admin.categories', compact('cats'));
     }
 
     public function ProductEditForm($id) {
         //$pro_id = $reqeust->id;
-        $Products = DB::table('products')->where('id', '=', $id)->get(); // now we are fetching all products
+        $Products = DB::table('products')
+        ->where('id', '=', $id)
+        ->get(); // now we are fetching all products
         return view('admin.editPproducts', compact('Products'));
+    }
+
+    public function deleteProduct($id) {
+        DB::table('products')
+        ->where('id', '=', $id)
+        ->delete();
+        return back()->with('msg-dlt', 'Product Deleted!');
     }
 
     public function editProduct(Request $request) {
@@ -126,7 +171,9 @@ class AdminController extends Controller {
           $new_arrival = $request->new_arrival;
         }
 
-        DB::table('products')->where('id', $proid)->update([
+        DB::table('products')
+        ->where('id', $proid)
+        ->update([
             'pro_name' => $pro_name,
             'cat_id' => $cat_id,
             'pro_code' => $pro_code,
@@ -144,21 +191,25 @@ class AdminController extends Controller {
     }
 
     public function ImageEditForm($id) {
-        $Products = DB::table('products')->where('id', '=', $id)->get(); // now we are fetching all products
+
+        $Products = DB::table('products')
+        ->where('id', '=', $id)
+        ->get(); // now we are fetching all products
         return view('admin.ImageEditForm', compact('Products'));
     }
 
     public function editProImage(Request $request) {
-
+        $this->validate($request, [
+          'new_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
         $proid = $request->id;
 
         $file = $request->file('new_image');
 
         $filename = time() . '.' . $file->getClientOriginalName();
 
-        $S_path = base_path() . '/public/upload/images/small';
-        $M_path = base_path() . '/public/upload/images/medium';
-        $L_path = base_path() . '/public/upload/images/large';
+        $S_path = base_path() . '/public/public/products/small';
+        $M_path = base_path() . '/public/public/products/medium';
+        $L_path = base_path() . '/public/public/products/large';
 
         $img = Image::make($file->getRealPath());
         //$img->crop(300, 150, 25, 25);
@@ -171,8 +222,9 @@ class AdminController extends Controller {
        // $file->move($path, $filename);
 
 
-        DB::table('products')->where('id', $proid)->update(['pro_img' => $filename]);
-        return redirect('/admin/products');
+        DB::table('products')->where('id', $proid)
+        ->update(['pro_img' => $filename]);
+        return redirect('/admin/ProductEditForm/'.$proid)->with('msg', 'Product Image Successfully Updated!');
         //echo 'done';
         //  $Products = DB::table('products')->get(); // now we are fetching all products
         //  return view('admin.products', compact('Products'));
@@ -182,10 +234,13 @@ class AdminController extends Controller {
     public function deleteCat($id) {
 
         //echo $id;
-        DB::table('pro_cat')->where('id', '=', $id)->delete();
+        DB::table('pro_cat')
+        ->where('id', '=', $id)
+        ->delete();
 
 
-        $cats = DB::table('pro_cat')->get();
+        $cats = DB::table('pro_cat')
+        ->get();
 
         return view('admin.categories', compact('cats'));
     }
@@ -218,12 +273,16 @@ class AdminController extends Controller {
     public function addSale(Request $request){
       $salePrice = $request->salePrice;
       $pro_id = $request->pro_id;
-      DB::table('products')->where('id', $pro_id)->update(['spl_price' => $salePrice]);
+      DB::table('products')
+      ->where('id', $pro_id)
+      ->update(['spl_price' => $salePrice]);
       echo 'added successfully';
     }
 
     public function addAlt($id){
-      $proInfo = DB::table('products')->where('id', $id)->get();
+      $proInfo = DB::table('products')
+      ->where('id', $id)
+      ->get();
       return view('admin.addAlt', compact('proInfo'));
     }
 
@@ -242,7 +301,7 @@ class AdminController extends Controller {
     public function users(){
 
       $usersData = DB::table('users')
-    //  ->Join('address','address.user_id','users.id')
+      ->orderBy('id', 'DESC')
       ->get();
       return view('admin.users',compact('usersData', $usersData));
     }
@@ -250,7 +309,9 @@ class AdminController extends Controller {
       $userId = $request->userID;
       $role_val = $request->role_val;
 
-      $upd_role = DB::table('users')->where('id',$userId)->update(['admin' =>$role_val]);
+      $upd_role = DB::table('users')
+      ->where('id',$userId)
+      ->update(['admin' =>$role_val]);
       if($upd_role){
         echo "Updated Successfully";
       }
@@ -259,7 +320,8 @@ class AdminController extends Controller {
       $userId = $request->userID;
       $ban_val = $request->ban_val;
 
-      DB::table('users')->where('id',$userId)->update(['isBan' =>$ban_val]);
+      DB::table('users')->where('id',$userId)
+      ->update(['isBan' =>$ban_val]);
     }
     public function addUser() {
       return view('admin.addUser');
@@ -281,7 +343,9 @@ class AdminController extends Controller {
     }
 
     public function userEditForm($id) {
-      $users = DB::table('users')->where('id', '=', $id)->get(); 
+      $users = DB::table('users')
+      ->where('id', '=', $id)
+      ->get(); 
         return view('admin.userEditForm', compact('users', $users));
     }
     public function editUser(Request $request){
@@ -292,7 +356,9 @@ class AdminController extends Controller {
         $user_password = Hash::make($request->password);
         
 
-        DB::table('users')->where('id', $user_id)->update([
+        DB::table('users')
+        ->where('id', $user_id)
+        ->update([
             'name' => $user_name,
             'email' => $user_email,
             'password' => $user_password,
@@ -303,7 +369,9 @@ class AdminController extends Controller {
     }
 
     public function deleteUser($id){
-      $users = DB::table('users')->where('id', '=', $id)->delete(); 
+      $users = DB::table('users')
+      ->where('id', '=', $id)
+      ->delete(); 
       return redirect('/admin/users')->with('msg', 'Product Successfully Deleted');
     }
 
@@ -365,7 +433,7 @@ class AdminController extends Controller {
 
     public function approveOrder($id) {
       DB::table('orders')->where('id', '=', $id)->update(['status' => 'approved']);
-      return back();
+      return back()->with('msg-apr', 'Successfully Approved!');
     }
     public function approved_orders() {
       $data = DB::table('orders')
@@ -377,6 +445,55 @@ class AdminController extends Controller {
       // ->groupBy('created_at');
         // dd($data);
       return view('admin.approved_orders', compact('data'));
+    }
+
+    public function printOrder($id) {
+      $data = DB::table('orders_products')
+      ->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')
+      ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
+      ->leftJoin('address', 'address.user_id', '=', 'orders.user_id')
+      ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+      ->select('users.*', 'address.*', 'products.*', 'orders_products.*', 'orders.*')
+      ->where('orders_products.orders_id', $id)
+      ->get();
+      return view('admin.print_orders', compact('data'));
+    }
+
+    public function cancelOrder($id) {
+      DB::table('orders')->where('id', '=', $id)
+      ->update(['status' => 'canceled']);
+      return back()->with('msg-cnl', 'Successfully Canceled!');
+    }
+
+    public function canceled_orders() {
+      $data = DB::table('orders')
+      ->leftJoin('users', 'users.id', '=', 'orders.user_id')
+      ->select('users.*', 'orders.*')
+      ->where('orders.status', 'canceled')
+      ->orderBy('orders.created_at', 'DESC')
+      ->get();
+      return view('admin.canceled_orders', compact('data'));
+    }
+
+    public function deleteOrder($id) {
+      DB::table('orders')
+      ->where('id', '=', $id)
+      ->delete();
+      DB::table('orders_products')
+      ->where('orders_id', '=', $id)
+      ->delete();
+      // orders_products::deleteOrderFields($id);
+
+      return back()->with('msg-dlt', 'Successfully Deleted!');
+    }
+
+    public function sales() {
+      $sales = DB::table('orders_products')
+      ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
+      ->select('products.*', 'orders_products.*')
+      ->get();
+      // dd($sales);
+      return view('admin.sales', compact('sales'));
     }
 
 

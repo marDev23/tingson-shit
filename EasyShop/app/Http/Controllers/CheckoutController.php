@@ -10,6 +10,7 @@ use App\address;
 use App\orders;
 use Storage;
 use Image;
+use App\Location;
 
 class CheckoutController extends Controller {
 
@@ -34,22 +35,14 @@ class CheckoutController extends Controller {
         $profile_address = address::where('user_id', Auth::user()->id)->get();
         if($profile_address->isEmpty()) {
         $this->validate($request, [
-            'fullname' => 'required|min:5|max:35',
-            'pincode' => 'required|numeric',
-            'city' => 'required|min:5|max:25',
-            'state' => 'required|min:5|max:25',
-            'country' => 'required']);
+            'fullname' => 'required',
+            'city' => 'required']);
 
         $userid = Auth::user()->id;
 
         $address = new address;
-        $address->fullname = $request->fullname;
-        $address->state = $request->state;
-        $address->city = $request->city;
-        $address->country = $request->country;
-
         $address->user_id = $userid;
-        $address->pincode = $request->pincode;
+        $address->address_id = $request->city;
         $address->payment_type = $request->pay;
         $address->save();
 
@@ -67,6 +60,21 @@ class CheckoutController extends Controller {
        }
         
         
+    }
+
+    public function findlocation_mun(Request $request) {
+        $data = Location::select('city_mun', 'id')->where('province_id', $request->id)->take(100)->get();
+        return response()->json($data);
+    }
+
+    public function findlocation_bar(Request $request) {
+        $data = Location::select('baranggay', 'id')->where('id', $request->id)->get();
+        return response()->json($data);
+    }
+
+    public function findlocation_zip(Request $request) {
+        $p = Location::select('zip')->where('id', $request->id)->first();
+        return response()->json($p);
     }
 
 }

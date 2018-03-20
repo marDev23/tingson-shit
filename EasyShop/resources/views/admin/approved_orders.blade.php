@@ -30,6 +30,12 @@
     <section id="main-content">
         <section class="wrapper">
             <div class="content-box-large">
+              @if(session('msg-cnl'))
+                <div class="alert alert-warning">  {{session('msg-cnl')}}</div>
+                @endif
+                @if(session('msg'))
+                <div class="alert alert-success">  {{session('msg')}}</div>
+                @endif
                 <h1>Approved Orders</h1>
                 <table class="table table-striped">
                     <thead>
@@ -51,10 +57,15 @@
                                 <td class="status_order">{{$orders->status}}</td>
                                 <td>₱ {{$orders->total}}</td>
                                 <td class="reciept_img"><a data-lightbox="myreciept_img" href="{{ asset('reciept/images') }}/{{$orders->reciept_img}}"> <img src="{{ asset('reciept/images') }}/{{$orders->reciept_img}}" alt="Reciept Image Captured"></a></td>
-                                <td><a href="{{url('/admin/approve_order')}}/{{$orders->id}}"
-                                   class="btn btn-success btn-small">Approve</a>
-                               <a href="{{url('/admin/pro_preview')}}/{{$orders->id}}"
-                                   class="btn btn-primary btn-small">View</a></td>
+                                <td><a href="{{ url('/admin/print_order') }}/{{$orders->id}}"
+                                      class="btn btn-success btn-small">Print</a>
+                                    <a href="{{url('/admin/pro_preview')}}/{{$orders->id}}"
+                                      class="btn btn-primary btn-small">View</a>
+                                    <a href="{{ url('/admin/cancel_order') }}/{{$orders->id}}"
+                                      class="btn btn-warning btn-small">Cancel</a>
+                                      <a href="{{ url('/admin/delete_order') }}/{{$orders->id}}"
+                                      class="btn btn-danger btn-small">Delete</a>
+                                  </td>
                             </tr>
                             @endforeach
                         </tbody>

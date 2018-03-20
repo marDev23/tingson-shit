@@ -28,7 +28,7 @@ class CartController extends Controller
         }
         Cart::add($id,$products->pro_name,1,$price,['img' => $products->pro_img,'stock' => $products->stock]);
 
-         return back();
+         return redirect('/cart');
       }
       else {
         return redirect('/login');

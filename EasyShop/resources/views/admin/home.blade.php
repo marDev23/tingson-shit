@@ -12,7 +12,9 @@
                 <div class="col-md-6">
                     <div class="content-box-large">
                         <div class="panel-heading">
-
+                            @if(session('msg'))
+                            <div class="alert alert-success">  {{session('msg')}}</div>
+                            @endif
                         {!! Form::open(['url' => 'admin/add_product',  'method' => 'post', 'enctype' => 'multipart/form-data']) !!}
                             <div class="panel-title">Add New Product
                                 <input type="submit" value="Submit" class="btn btn-primary pull-right" style="margin:-5px">
@@ -31,20 +33,21 @@
                             </select>
                             <br>
 
-                            Name:    <input type="text" name="pro_name" class="form-control">
+                            Name:    <input type="text" name="pro_name" class="form-control" required>
                             <br/>
-                            Price     <input type="text" name="pro_price" class="form-control">
+                            Price     <input type="number" name="pro_price" class="form-control" required>
                             <br/>
 
                             Code:    <input type="text" name="pro_code" class="form-control">
                             <br/>
-                            Imgage     <input type="file" name="pro_img" class="form-control">
+                            Image     <input type="file" name="pro_img" class="form-control" required>
+                            <span style="color:red">{{ $errors->first('pro_img') }}</span>
                             <br/>
 
 
-                            Details:    <textarea name="pro_info" class="form-control" rows="5"></textarea>
+                            Details:    <textarea name="pro_info" class="form-control" rows="5" required></textarea>
                             <br/>
-                            Spl  price     <input type="text" name="spl_price" class="form-control">
+                            Sale  price     <input type="number" name="spl_price" class="form-control">
                             <br/>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

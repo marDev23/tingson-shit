@@ -152,7 +152,7 @@
                                                                          0
                                                                          @endif
                                                                         )</span> </a></li>
-                                    <li><a href="{{url('/checkout')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                                    {{-- <li><a href="{{url('/checkout')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li> --}}
 
                                    <?php
                                    /*<li><a href="{{url('/cart')}}"><i class="fa fa-shopping-cart"></i>
@@ -183,7 +183,7 @@
                                                     <div class="col-md-12" style="padding:5px">
 
                                                         <div class="col-sm-5">
-                                                            <img src="{{ asset('upload/images/small') }}/{{$cartD->options->img}}" style="width:80%"/>
+                                                            <img src="{{ asset('public/products/small') }}/{{$cartD->options->img}}" style="width:80%"/>
                                                         </div>
                                                         <div class="col-sm-7">
                                                             <h4 style="margin:0px;">{{$cartD->name}}</h4>

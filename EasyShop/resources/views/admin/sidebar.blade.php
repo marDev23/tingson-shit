@@ -18,7 +18,7 @@
                         <ul class="sub">
                             <li><a href="{{url('/admin/pendingOrders')}}">Pending</a></li>
                             <li><a href="{{ url('/admin/approvedOrders') }}">Approved</a></li>
-                            <li><a href="">Canceled</a></li>
+                            <li><a href="{{ url('/admin/canceledOrders') }}">Canceled</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -51,7 +51,7 @@
                         </a>
                         <ul class="sub">
                             <li><a href="{{url('/admin/categories')}}">Category</a></li>
-                            <li><a href="">Locations</a></li>
+                            {{-- <li><a href="">Locations</a></li> --}}
                             <li><a href="{{url('admin/addPropertyAll')}}">Add Properties</a></li>
                         </ul>
                     </li>
@@ -62,7 +62,7 @@
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li><a href="">Sales Report</a></li>
+                            <li><a href="{{ url('/admin/sales') }}">Sales Report</a></li>
                         </ul>
                     </li>
 

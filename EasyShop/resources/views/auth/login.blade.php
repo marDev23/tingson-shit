@@ -54,9 +54,9 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                                {{-- <a class="btn btn-link" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </form>
@@ -102,6 +102,19 @@
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <label for="phone" class="col-md-4 control-label">Phone</label>
+
+                            <div class="col-md-6">
+                                <input id="number" type="number" class="form-control" name="phone" value="{{ old('phone') }}" required>
+
+                                @if ($errors->has('phone'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('phone') }}</strong>
                                     </span>
                                 @endif
                             </div>

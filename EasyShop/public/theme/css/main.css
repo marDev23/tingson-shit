@@ -1776,9 +1776,7 @@ h2.title {
   background: #FE980F;
   border-radius: 0;
   color: #FFFFFF;
-  margin-top: 18px;
   border: none;
-  padding: 5px 15px;
 }
 .update{
     margin-left: 40px;
@@ -1922,7 +1920,7 @@ h2.title {
 
 .order-message textarea {
   font-size: 12px;
-  height: 335px;
+  height: 280px;
   margin-bottom: 20px;
   padding: 15px 20px;
 }

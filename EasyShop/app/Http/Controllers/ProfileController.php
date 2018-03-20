@@ -16,7 +16,13 @@ class ProfileController extends Controller {
 
     public function orders() {
         $user_id = Auth::user()->id;
-        $orders = DB::table('orders_products')->leftJoin('products', 'products.id', '=', 'orders_products.products_id')->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')->where('orders.user_id', '=', $user_id)->get()->groupBy('id');
+        $orders = DB::table('orders_products')
+        ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
+        ->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')
+        ->where('orders.user_id', '=', $user_id)
+        ->orderBy('orders.created_at', 'DESC')
+        ->get()
+        ->groupBy('id');
 
         // dd($orders);
         return view('profile.orders', compact('orders'));
@@ -82,6 +88,11 @@ class ProfileController extends Controller {
            return back()->with('msg','Password has been updated');
         }
        // echo 'here update query for password';
+    }
+
+    public function cancelOrdered($id) {
+        DB::table('orders')->where('id', '=', $id)->update(['status' => 'canceled']);
+        return back()->with('msg-cnl', 'Order Canceled!');
     }
 
 }
