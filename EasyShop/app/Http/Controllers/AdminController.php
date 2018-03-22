@@ -305,23 +305,17 @@ class AdminController extends Controller {
       ->get();
       return view('admin.users',compact('usersData', $usersData));
     }
-    public function updateRole(Request $request){
-      $userId = $request->userID;
-      $role_val = $request->role_val;
-
-      $upd_role = DB::table('users')
-      ->where('id',$userId)
-      ->update(['admin' =>$role_val]);
-      if($upd_role){
-        echo "Updated Successfully";
-      }
-    }
+      
     public function banUser(Request $request){
       $userId = $request->userID;
       $ban_val = $request->ban_val;
 
-      DB::table('users')->where('id',$userId)
+      $upd_role = DB::table('users')->where('id',$userId)
       ->update(['isBan' =>$ban_val]);
+
+      if($upd_role){
+        echo "Updated Successfully";
+      }
     }
     public function addUser() {
       return view('admin.addUser');
@@ -330,16 +324,20 @@ class AdminController extends Controller {
       $this->validate($request, [
         'name' => 'required|max:255',
         'email' => 'required|email|max:255|unique:users',
+        'phone' => 'required|numeric|digits:11',
         'password' => 'required|min:6',
       ]);
 
       $user = new User;
       $user->name = $request->name;
       $user->email = $request->email;
+      $user->phone = $request->phone;
+      
       $user->password = Hash::make($request->password);
+      $user->admin = $request->admin;
       $user->save();
 
-      return back()->with('msg', 'User Successfully Added');
+      return redirect('/admin/users')->with('msg-add', 'User Successfully Added!');
     }
 
     public function userEditForm($id) {
@@ -349,11 +347,19 @@ class AdminController extends Controller {
         return view('admin.userEditForm', compact('users', $users));
     }
     public function editUser(Request $request){
+        $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|numeric|digits:11',
+        'password' => 'required|min:6',
+      ]);
 
         $user_id = $request->id;
         $user_name = $request->name;
         $user_email = $request->email;
+        $user_phone = $request->phone;
         $user_password = Hash::make($request->password);
+        $user_admin = $request->admin;
         
 
         DB::table('users')
@@ -361,48 +367,50 @@ class AdminController extends Controller {
         ->update([
             'name' => $user_name,
             'email' => $user_email,
+            'phone' => $user_phone,
             'password' => $user_password,
+            'admin' => $user_admin,
 
         ]);
 
-        return redirect('/admin/users')->with('msg', 'Product Successfully Updated');
+        return redirect('/admin/users')->with('msg', 'User Successfully Updated');
     }
 
     public function deleteUser($id){
       $users = DB::table('users')
       ->where('id', '=', $id)
       ->delete(); 
-      return redirect('/admin/users')->with('msg', 'Product Successfully Deleted');
+      return redirect('/admin/users')->with('msg-dlt', 'User Successfully Deleted');
     }
 
-    public function import_products(Request $request){
-      $this->validate($request,[
-        'file' => 'required|mimes:csv,txt'
-      ]);
+    // public function import_products(Request $request){
+    //   $this->validate($request,[
+    //     'file' => 'required|mimes:csv,txt'
+    //   ]);
 
-      if(($handle = fopen($_FILES['file']['tmp_name'],"r")) !== FALSE){
-        fgetcsv($handle); // remove first row of excel file such as product name,price,code
+    //   if(($handle = fopen($_FILES['file']['tmp_name'],"r")) !== FALSE){
+    //     fgetcsv($handle); // remove first row of excel file such as product name,price,code
 
-        while(($data = fgetcsv($handle,1000,",")) !==FALSE){
+    //     while(($data = fgetcsv($handle,1000,",")) !==FALSE){
 
-        $addPro =  DB::table('products')->insert([
-            'pro_name' => $data[0],
-            'pro_code' => $data[1],
-            'pro_info' => $data[2],
-            'pro_img' => $data[3],
-            'pro_price' => $data[4],
-            'cat_id' => $data[5],
-            'stock' => '10',
-            'new_arrival' => '0',
-            'spl_price' => '0',
-            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-           ]);
-          return back();
-        }
-      }
+    //     $addPro =  DB::table('products')->insert([
+    //         'pro_name' => $data[0],
+    //         'pro_code' => $data[1],
+    //         'pro_info' => $data[2],
+    //         'pro_img' => $data[3],
+    //         'pro_price' => $data[4],
+    //         'cat_id' => $data[5],
+    //         'stock' => '10',
+    //         'new_arrival' => '0',
+    //         'spl_price' => '0',
+    //         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+    //         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+    //        ]);
+    //       return back();
+    //     }
+    //   }
 
-    }
+    // }
 
     public function pending_orders() {
 

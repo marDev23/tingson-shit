@@ -24,15 +24,19 @@
                             </div>
                         <div class="panel-body">
                             @foreach($users as $user)
-                            <input type="hidden" name="id" class="form-control" value="{{$user->id}}">
                             Name:    <input type="text" name="name" class="form-control" value="{{$user->name}}">
+                            <span style="color:red">{{ $errors->first('name') }}</span>
                             <br/>
-                            E-mail:     <input type="text" name="email" class="form-control" value="{{$user->email}}">
+                            E-mail:     <input type="email" name="email" class="form-control" value="{{$user->email}}">
+                            <span style="color:red">{{ $errors->first('email') }}</span>
                             <br/>
-
+                            Phone:     <input type="text" name="phone" class="form-control" value="{{$user->phone}}">
+                            <span style="color:red">{{ $errors->first('phone') }}</span>
+                            <br/>
                             New Password:    <input type="password" name="password" class="form-control">
+                            <span style="color:red">{{ $errors->first('password') }}</span>
                             <br/>
-
+                            <input type="hidden" name="admin" value="1">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             @endforeach
                         {!! Form::close() !!}

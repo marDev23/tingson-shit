@@ -25,7 +25,7 @@
         </div><!--/breadcrums-->
 
         <div class="step-one">
-            <h2 class="heading">Step1</h2>
+            <h2 class="heading">Checkout</h2>
         </div>
 
 
@@ -40,7 +40,57 @@
                     <div class="col-sm-8">
                         <div class="shopper-info">
                             <p>Shopper Information</p>
-                            <?php if (empty($profile_address)) { ?>
+                        @if(count($profile_address) > 0)
+                            @foreach($profile_address as $address)
+                            <hr>
+                            <input type="text" name="fullname"  placeholder="Full Name" class="form-control"  value="{{$address->fullname}}" required>
+
+                            <span style="color:red">{{ $errors->first('fullname') }}</span>
+
+                            <hr>
+
+                            <select name="country" class="country form-control" required>
+                                @if(!$address->name == '' || !$address->name == '0' || !$address->name == 'null')
+                                    <option value="0" selected="true" disabled="true">{{$address->name}}</option>
+                                    @foreach($provinces as $province)
+                                    <option value="{{$province->id}}">{{$province->name}}</option>
+                                    @endforeach
+                                @else
+                                    <option value="0" selected="true" disabled="true">Select Province</option>
+                                    @foreach($provinces as $province)
+                                    <option value="{{$province->id}}">{{$province->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <span style="color:red">{{ $errors->first('country') }}</span>
+                            <hr>
+                            <select name="state" class="state form-control" required>
+                                @if(!$address->city_mun == '' || !$address->city_mun == '0' || !$address->city_mun == 'null')
+                                    <option value="0" disabled="true" selected="true">{{$address->city_mun}}</option>
+                                @else
+                                    <option value="0" disabled="true" selected="true">Select City/Municipal</option>
+                                @endif
+                            </select>
+
+                            <span style="color:red">{{ $errors->first('state') }}</span>
+
+                            <hr>
+                            <select name="city" class="city form-control" required>
+                                @if(!$address->baranggay == '' || !$address->baranggay == '0' || !$address->baranggay == 'null')
+                                    <option value="{{$address->address_id}}" disabled="true" selected="true">{{$address->baranggay}}</option>
+                                @else
+                                    <option value="0" disabled="true" selected="true">Select Baranggay</option>
+                                @endif
+                            </select>
+
+                            <span style="color:red">{{ $errors->first('city') }}</span>
+
+                            <hr>
+                            <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{$address->zip}}" readonly="true">
+
+                            <span style="color:red">{{ $errors->first('pincode') }}</span>
+                            @endforeach
+                        @else
                             <hr>
                             <input type="text" name="fullname"  placeholder="Full Name" class="form-control"  value="{{old('fullname')}}" required>
 
@@ -74,10 +124,8 @@
                             <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{ old('pincode') }}">
 
                             <span style="color:red">{{ $errors->first('pincode') }}</span>
-
                             
-                            <?php } ?>
-
+                            @endif
                         </div>
                     </div>
 

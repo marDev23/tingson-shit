@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 18, 2018 at 06:43 PM
+-- Generation Time: Feb 18, 2018 at 11:00 PM
 -- Server version: 10.1.30-MariaDB-0ubuntu0.17.10.1
 -- PHP Version: 7.1.11-0ubuntu0.17.10.1
 
@@ -28,24 +28,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `address` (
   `id` int(10) UNSIGNED NOT NULL,
-  `fullname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `state` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `pincode` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `address_id` tinyint(11) NOT NULL,
   `payment_type` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `address`
---
-
-INSERT INTO `address` (`id`, `fullname`, `state`, `city`, `country`, `user_id`, `pincode`, `payment_type`, `created_at`, `updated_at`) VALUES
-(20, 'Test T Test', 'dsfsdf', 'dsffgsdaf', 'gffdsg', 9, '3452', NULL, '2018-02-19 00:48:02', '2018-02-19 00:48:02'),
-(22, 'Marvin Shit', 'dsfdsf', 'fsdfsd', 'Zamboanga Del Sur', 13, '234', 'COD', '2018-02-19 02:29:36', '2018-02-19 02:29:36');
 
 -- --------------------------------------------------------
 
@@ -59,27 +48,6 @@ CREATE TABLE `alt_images` (
   `alt_img` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `alt_images`
---
-
-INSERT INTO `alt_images` (`id`, `proId`, `alt_img`, `status`) VALUES
-(1, 19, '5.jpg', 0),
-(2, 19, '4.jpg', 0),
-(3, 19, '3.jpg', 0),
-(4, 19, '1download.jpg', 0),
-(5, 19, '14917953995.jpg', 0),
-(6, 26, '14917954523.jpg', 0),
-(7, 26, '14917954554.jpg', 0),
-(8, 26, '14917954641download.jpg', 0),
-(9, 26, '14917955093.jpg', 0),
-(10, 26, '14917956711download.jpg', 0),
-(11, 26, '14917956772.jpg', 0),
-(12, 26, '14917956805.jpg', 0),
-(13, 2, '1491907409EZ TC GOLD.png', 0),
-(18, 1, '1518977288pexels-photo-276656.jpeg', 0),
-(19, 1, '1518977356slide1.jpeg', 0);
 
 -- --------------------------------------------------------
 
@@ -123,23 +91,6 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`id`, `user_id`, `status`, `total`, `reciept_img`, `created_at`, `updated_at`) VALUES
-(14, 8, 'pending', '60.50', NULL, '2018-02-19 01:52:53', '2018-02-19 01:52:53'),
-(15, 8, 'pending', '316.80', NULL, '2018-02-19 01:12:41', '2018-02-19 01:12:41'),
-(16, 8, 'pending', '0.00', NULL, '2018-02-19 01:13:26', '2018-02-19 01:13:26'),
-(17, 8, 'pending', '19.81', NULL, '2018-02-19 01:26:02', '2018-02-19 01:26:02'),
-(18, 8, 'pending', '0.01', NULL, '2018-02-19 01:36:51', '2018-02-19 01:36:51'),
-(19, 8, 'pending', '59.40', NULL, '2018-02-19 01:38:29', '2018-02-19 01:38:29'),
-(20, 13, 'pending', '0.01', NULL, '2018-02-19 01:32:04', '2018-02-19 01:32:04'),
-(21, 13, 'pending', '49.50', NULL, '2018-02-19 02:40:06', '2018-02-19 02:40:06'),
-(22, 13, 'pending', '55.00', NULL, '2018-02-19 03:00:53', '2018-02-19 03:00:53'),
-(23, 13, 'pending', '19.80', NULL, '2018-02-19 03:02:48', '2018-02-19 03:02:48'),
-(24, 13, 'pending', '55.00', 'Screenshot from 2018-02-18 15-00-17.png', '2018-02-19 03:04:07', '2018-02-19 03:04:07');
-
 -- --------------------------------------------------------
 
 --
@@ -155,22 +106,25 @@ CREATE TABLE `orders_products` (
   `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `orders_products`
+-- Table structure for table `parent_category`
 --
 
-INSERT INTO `orders_products` (`id`, `total`, `products_id`, `orders_id`, `tax`, `qty`) VALUES
-(17, 50, 6, 14, '10.50', 1),
-(18, 288, 4, 15, '28.80', 16),
-(19, 0.01, 1, 17, '1.80', 1),
-(20, 18, 4, 17, '1.80', 1),
-(21, 0.01, 1, 18, '0.00', 1),
-(22, 54, 22, 19, '5.40', 1),
-(23, 0.01, 1, 20, '0.00', 1),
-(24, 45, 5, 21, '4.50', 1),
-(25, 50, 6, 22, '5.00', 1),
-(26, 18, 4, 23, '1.80', 1),
-(27, 50, 6, 24, '5.00', 1);
+CREATE TABLE `parent_category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `parent_category`
+--
+
+INSERT INTO `parent_category` (`id`, `name`) VALUES
+(1, 'Home Furniture'),
+(2, 'Office Furniture'),
+(3, 'Decor');
 
 -- --------------------------------------------------------
 
@@ -205,22 +159,6 @@ CREATE TABLE `products` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`id`, `pro_name`, `pro_code`, `pro_price`, `pro_info`, `pro_img`, `stock`, `new_arrival`, `spl_price`, `cat_id`, `created_at`, `updated_at`) VALUES
-(1, 'Ziemann, Littel and Mraz', 'Hahn-Armstrong', '0.01', 'Ipsam aliquam sit reprehenderit rerum sed hic. Unde at earum cum ut aliquid. Est et est neque sunt.', '1518990847.data.jpg', '7', NULL, '', 2, NULL, NULL),
-(2, 'Wyman-Cronin', 'Hoppe-Hilll', '96', 'Enim dolores rem vero iure. Rerum aspernatur possimus minus harum velit at veritatis. Fuga pariatur minus distinctio explicabo harum quis. Accusantium aut hic aliquam et.', '1518980306.SB-315.jpg', '7', 1, '88', 4, NULL, NULL),
-(3, 'Senger and Sons', 'Corwin Ltd', '11', 'Reprehenderit tempora consequatur et blanditiis ut unde perferendis. Voluptas animi cupiditate laudantium quod. Nemo debitis aut eos. Ut tempore dolorem repudiandae sint.', '1518985521.pexels-photo-271743.jpeg', '7', 1, '59', 3, NULL, NULL),
-(4, 'Weissnat, Price and Mante', 'Botsford Ltd', '18', 'Molestias aut cum qui eum ut quae quasi et. Architecto et repudiandae doloribus beatae veritatis ut odio est. Repudiandae veniam beatae laborum doloremque. Amet quo dolores vel.', '1518985534.pexels-photo-276769 (1).jpeg', '7', 1, '12', 2, NULL, NULL),
-(5, 'Marvin-Cummings', 'Schmeler LLC', '45', 'Libero quod tempore impedit eaque sunt. Eum cumque saepe voluptatibus alias quia non porro. Sint ut aut ut perferendis excepturi.', '1518985548.slide3.jpeg', '7', 1, '58', 2, NULL, NULL),
-(6, 'Conn, Bartoletti and Hagenes', 'O\'Kon-Padberg', '50', 'Qui et quibusdam quia repellat. Vitae maxime ut tenetur nostrum incidunt aperiam. Tempore doloremque optio provident non.', '1518985560.slide2.jpeg', '7', 1, '35', 2, NULL, NULL),
-(21, 'gdsf', 'hgf', '546', 'ghdfg', '1518979288.window-3069893__340.jpg', NULL, NULL, '456', 6, '2018-02-18 23:36:31', '2018-02-18 23:36:31'),
-(22, 'ghffg', 'fdgdfg', '54', 'gffdg', '1518979302.pexels-photo-271724.jpeg', '1', NULL, '45', 18, NULL, NULL),
-(23, 'Holly', 'sdjlk', '345', 'hgjgfhgf', 'window-3069893__340.jpg', NULL, NULL, '', 6, '2018-02-19 01:07:47', '2018-02-19 01:07:47'),
-(24, 'test 2', 'fsdfdsa', '34', 'fdgdfgdf', '1518983430.banner123.jpeg', NULL, NULL, '', 6, '2018-02-19 00:49:08', '2018-02-19 00:49:08');
-
 -- --------------------------------------------------------
 
 --
@@ -236,19 +174,6 @@ CREATE TABLE `products_properties` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `products_properties`
---
-
-INSERT INTO `products_properties` (`id`, `pro_id`, `size`, `color`, `p_price`, `updated_at`, `created_at`) VALUES
-(1, 3, 'L', 'blue', '78976', '2018-02-18 18:28:25', '2018-02-18 18:28:25'),
-(2, 21, 'L', 'matt finished', '432', '2018-02-18 23:32:29', '2018-02-18 23:54:02'),
-(3, 1, 'XXL', 'blue', '890', '2018-02-19 03:39:39', '2018-02-19 03:39:39'),
-(4, 21, 'L', 'blue', '32432', '2018-02-19 04:31:40', '2018-02-19 04:31:40'),
-(5, 6, 'L', 'blue', '790', '2018-02-19 01:20:17', '2018-02-19 01:20:17'),
-(6, 1, 'L', 'green', '90', '2018-02-19 02:56:36', '2018-02-19 02:56:36'),
-(7, 1, 'L', 'black', '45', '2018-02-18 21:57:28', '2018-02-19 02:57:19');
 
 -- --------------------------------------------------------
 
@@ -284,19 +209,6 @@ CREATE TABLE `pro_cat` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `pro_cat`
---
-
-INSERT INTO `pro_cat` (`id`, `name`, `p_id`, `created_at`, `updated_at`, `status`) VALUES
-(2, 'automobiles', 1, NULL, NULL, 0),
-(3, 'movies', NULL, NULL, NULL, 0),
-(4, 'books', NULL, NULL, NULL, 0),
-(6, 'Bedroom', NULL, '2018-02-18 23:58:55', '2018-02-18 23:58:55', 0),
-(15, 'bad', NULL, '2018-02-19 01:32:33', NULL, 0),
-(16, 'reputation', NULL, '2018-02-19 01:33:17', '2018-02-19 01:33:17', 0),
-(18, 'hey', 3, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -410,7 +322,8 @@ INSERT INTO `recommends` (`id`, `pro_id`, `uid`, `created_at`, `updated_at`) VAL
 (91, 1, 8, '2018-02-19 02:55:08', '2018-02-19 02:55:08'),
 (92, 1, 8, '2018-02-19 02:57:33', '2018-02-19 02:57:33'),
 (93, 1, 8, '2018-02-19 02:57:39', '2018-02-19 02:57:39'),
-(94, 1, 8, '2018-02-19 03:03:17', '2018-02-19 03:03:17');
+(94, 1, 8, '2018-02-19 03:03:17', '2018-02-19 03:03:17'),
+(95, 26, 19, '2018-02-19 04:00:07', '2018-02-19 04:00:07');
 
 -- --------------------------------------------------------
 
@@ -427,13 +340,6 @@ CREATE TABLE `reviews` (
   `review_content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `reviews`
---
-
-INSERT INTO `reviews` (`id`, `created_at`, `updated_at`, `person_name`, `person_email`, `review_content`) VALUES
-(1, '2017-05-08 21:33:21', '2017-05-08 21:33:21', 'fvefv', 'efve@ec3fr.fvfv.com', 'efvff ee ef');
-
 -- --------------------------------------------------------
 
 --
@@ -444,6 +350,7 @@ CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `admin` tinyint(1) DEFAULT '0',
   `isBan` tinyint(1) DEFAULT '0',
@@ -451,22 +358,6 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `admin`, `isBan`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'anita', 'anita@yahoo.com', '$2y$10$SKj2V9WsGGGHzYyn3L8dfudhpE9CL7PBjeA35LRWKrbXlK3SzUToG', 0, 0, 'MgxytSUDD0eYdrsUpKDLPUQf2opQ6SUNTVS7HTygC4BAFZO2Ghg3mX1zGRl8', '2016-11-15 08:45:26', '2017-03-13 11:42:05'),
-(3, 'Sonam Gupta', 'sonam@yahoo.com', '$2y$10$SKj2V9WsGGGHzYyn3L8dfudhpE9CL7PBjeA35LRWKrbXlK3SzUToG', 0, 0, 'm1vwikSzRke7KoBKjHMPgYq4ZdfLCKfo7h7xwLNu0MMjod78aVdYnwxj0R2y', '2016-11-15 08:45:26', '2017-02-03 17:35:28'),
-(4, 'alex', 'ejemplo1@gmail.com', '$2y$10$t3jIIrGV2FZrAkI/c7uJmuMJI5IeY6XlhHnvhLcvu6rqKxTmaLOgy', 0, 0, NULL, '2017-04-07 23:36:37', '2017-04-07 23:36:37'),
-(5, 'tsedee', 'tseegii_9512@yahoo.com', '$2y$10$u5oK/KZzCksPaB4NQk6jU.SYcVOP0NGfu4jcDbwQVMPMBPVDHm06W', 0, 0, 'XGJfbFcnEes7OmPfsVOmWvDruhihEdxL2BU17EzwGEcSfmZq9anumYoVXAz5', '2017-04-21 07:43:03', '2017-04-21 09:11:06'),
-(6, 'Imran', 'imran@gmail.com', '$2y$10$z3UnOuHHmCt7cag5uU2zxepGYY3jWNN/95VByi0LHM9RuwM/U9CbO', 0, 0, NULL, '2017-04-28 13:19:11', '2017-04-28 13:19:11'),
-(7, 'Joshe Razier', 'nanographic.bermudez@gmail.com', '$2y$10$Wfi6wMHA9ujbK6RktBsvx.jan8RW/owfeeV1FmNk2Ay1Wc3xz72ri', 0, 0, NULL, '2017-05-03 17:19:00', '2017-05-03 17:19:00'),
-(9, 'Test', 'test@test.com', '$2y$10$0hs1XzXtaW1r/1dGlfE/SezH8arBtYpee8MVaf.9TwZwmoSdlZsqS', 0, 0, 'wrxcu3dewoWYHsD8j5vc1RNEcRL0TbeNlf5A2inGbbDoKXPH6nXMRtpkIni6', '2018-02-19 05:21:44', '2018-02-19 00:51:12'),
-(11, 'Marvin Marzon', 'marvinmarzon@gmail.com', '$2y$10$ePlIodFe.O0LB6CpjZo/d.B2wyB27GC9NgCNby44hvqrxEUyxK36.', 1, 0, 'oLowC4KGDPzLAxmYojmucRmu9OzSfjakE6lNwBatj63s4HTtQj8xo79DkJDR', '2018-02-19 00:44:02', '2018-02-19 01:18:12'),
-(12, 'Johny Deep', 'johndoe@test.com', '$2y$10$Gl.h2Eh99No1CvbVX.OwIu/JP7zu/fu6buooHlEHlPxW7jyz68kVO', 0, 0, 'CXXyTVfAti2P8XMu5GmjkulEULg6qT5mi3gmDolIOuUxvJGhG34WSSacdfN6', '2018-02-19 01:21:26', '2018-02-19 01:21:28'),
-(13, 'Marster John', 'shitload@test.com', '$2y$10$2y06BIEkB5Ds3xubud3GSOXCF7PcOCc16MxuM2rMqAhZeUt8f/LtW', 1, 0, 'dhpHYF7hYIR3Bp0aV252RFBNRhd6aKuULkDoqoeFn09cq8NlAn3TXsja2hRv', '2018-02-19 01:22:49', '2018-02-19 01:22:51');
 
 -- --------------------------------------------------------
 
@@ -514,6 +405,12 @@ ALTER TABLE `orders`
 -- Indexes for table `orders_products`
 --
 ALTER TABLE `orders_products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `parent_category`
+--
+ALTER TABLE `parent_category`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -580,7 +477,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `alt_images`
 --
@@ -595,17 +492,22 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `orders_products`
 --
 ALTER TABLE `orders_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+--
+-- AUTO_INCREMENT for table `parent_category`
+--
+ALTER TABLE `parent_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `products_properties`
 --
@@ -625,7 +527,7 @@ ALTER TABLE `pro_cat`
 -- AUTO_INCREMENT for table `recommends`
 --
 ALTER TABLE `recommends`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 --
 -- AUTO_INCREMENT for table `reviews`
 --
@@ -635,7 +537,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `wishlist`
 --

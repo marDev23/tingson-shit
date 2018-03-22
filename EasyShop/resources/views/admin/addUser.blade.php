@@ -28,11 +28,16 @@
                         <div class="panel-body">
 
                             Name:    <input type="text" name="name" class="form-control">
+                            <span style="color:red">{{ $errors->first('name') }}</span>
                             <br/>
-                            E-mail:     <input type="text" name="email" class="form-control">
+                            E-mail:     <input type="email" name="email" class="form-control">
+                            <span style="color:red">{{ $errors->first('email') }}</span>
                             <br/>
-
+                            Phone:     <input type="text" name="phone" class="form-control">
+                            <span style="color:red">{{ $errors->first('phone') }}</span>
+                            <br/>
                             Password:    <input type="password" name="password" class="form-control">
+                            <span style="color:red">{{ $errors->first('password') }}</span>
                             <br/>
                             <input type="hidden" name="admin" value="1">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">

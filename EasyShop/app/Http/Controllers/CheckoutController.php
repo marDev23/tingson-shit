@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 use App\Province;
 use App\address;
 use App\orders;
@@ -15,7 +16,13 @@ use App\Location;
 class CheckoutController extends Controller {
 
     public function index() {
-          $profile_address = address::where('user_id', Auth::user()->id)->first();
+          $profile_address = DB::table('address')
+          ->where('address.user_id', '=', Auth::user()->id)
+          ->leftJoin('locations', 'locations.id', '=', 'address.address_id')
+          ->leftJoin('provinces', 'provinces.id', '=', 'locations.province_id')
+          ->select('address.address_id', 'address.fullname', 'locations.city_mun', 'locations.baranggay', 'locations.zip', 'provinces.name')
+          ->get();
+          // dd($profile_address);
           $provinces = Province::all();
           $cartItems = Cart::content();
           return view('front.checkout', compact(['cartItems', 'provinces', 'profile_address']));
@@ -27,7 +34,7 @@ class CheckoutController extends Controller {
         $this->validate($request, [
             'reciept_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
         $file = $request->file('reciept_img');
-        $filename = $file->getClientOriginalName();
+        $filename = time() . '.' . $file->getClientOriginalName();
 
         $path = base_path() . '/public/reciept/images';
         $file->move($path, $filename);
@@ -36,12 +43,15 @@ class CheckoutController extends Controller {
         if($profile_address->isEmpty()) {
         $this->validate($request, [
             'fullname' => 'required',
-            'city' => 'required']);
+            'city' => 'required',
+            'pincode' => 'required|numeric'
+        ]);
 
         $userid = Auth::user()->id;
 
         $address = new address;
         $address->user_id = $userid;
+        $address->fullname = $request->fullname;
         $address->address_id = $request->city;
         $address->payment_type = $request->pay;
         $address->save();
@@ -53,6 +63,15 @@ class CheckoutController extends Controller {
 
        }
        else {
+        $this->validate($request, [
+            'fullname' => 'required',
+            'city' => 'required',
+            'pincode' => 'required|numeric'
+        ]);
+
+        DB::table('address')
+        ->where('user_id', '=', Auth::user()->id)
+        ->update(['fullname' => $request->fullname, 'address_id' => Auth::user()->id, 'address_id' => $request->city]);
         orders::createOrder($filename);
         
         Cart::destroy();

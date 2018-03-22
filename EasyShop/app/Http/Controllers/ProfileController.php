@@ -7,11 +7,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\address;
+use App\Province;
 
 class ProfileController extends Controller {
 
     public function index() {
-        return view('profile.index');
+        $user = DB::table('users')
+        ->where('id', '=', Auth::user()->id)
+        ->get();
+        return view('profile.index', compact('user'));
+    }
+
+    public function updateProfile(Request $request) {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
+            'phone' => 'required|digits:11'
+        ]);
+
+        DB::table('users')
+        ->where('users.id', '=', Auth::user()->id)
+        ->update(['name' => $request->name, 'email' => $request->email, 'phone' => $request->phone]);
+
+        return back()->with('msg', 'Profile Updated!');
     }
 
     public function orders() {
@@ -25,50 +43,52 @@ class ProfileController extends Controller {
         ->groupBy('id');
 
         // dd($orders);
+        
         return view('profile.orders', compact('orders'));
     }
 
     public function address() {
-        $user_id = Auth::user()->id;
-        $address_data = DB::table('address')->where('user_id', '=', $user_id)->orderby('id', 'DESC')->get();
-        return view('profile.address', compact('address_data'));
+        $address_data = DB::table('address')
+          ->where('address.user_id', '=', Auth::user()->id)
+          ->leftJoin('locations', 'locations.id', '=', 'address.address_id')
+          ->leftJoin('provinces', 'provinces.id', '=', 'locations.province_id')
+          ->select('address.address_id', 'address.fullname', 'locations.city_mun', 'locations.baranggay', 'locations.zip', 'provinces.name')
+          ->get();
+
+          $provinces = Province::all();
+        return view('profile.address', compact('address_data', 'provinces'));
     }
 
     public function updateAddress(Request $request) {
+        // dd($request->fullname);
         $this->validate($request, [
-            'fullname' => 'required|min:5|max:35',
-            'pincode' => 'required|numeric',
-            'city' => 'required|min:5|max:25',
-            'state' => 'required|min:5|max:25',
-            'country' => 'required']);
+            'fullname' => 'required',
+            'city' => 'required',
+            'pincode' => 'required|numeric'
+        ]);
 
-        $userid = Auth::user()->id;
-        DB::table('address')->where('user_id', $userid)->update($request->except('_token'));
+        DB::table('address')
+        ->where('user_id', '=', Auth::user()->id)
+        ->update(['fullname' => $request->fullname, 'address_id' => Auth::user()->id, 'address_id' => $request->city]);
 
-        return back()->with('msg','Your address has been updated');
+        return back()->with('msg','Address Has Updated!');
     }
 
     public function saveAddress(Request $request) {
         $this->validate($request, [
-            'fullname' => 'required|min:5|max:35',
-            'pincode' => 'required|numeric',
-            'city' => 'required|min:5|max:25',
-            'state' => 'required|min:5|max:25',
-            'country' => 'required']);
+            'fullname' => 'required',
+            'city' => 'required',
+            'pincode' => 'required|numeric'
+        ]);
 
         $userid = Auth::user()->id;
 
         $address = new address;
-        $address->fullname = $request->fullname;
-        $address->state = $request->state;
-        $address->city = $request->city;
-        $address->country = $request->country;
-
         $address->user_id = $userid;
-        $address->pincode = $request->pincode;
-        $address->payment_type = $request->pay;
+        $address->fullname = $request->fullname;
+        $address->address_id = $request->city;
         $address->save();
-        return back()->with('msg','Your address has been save');
+        return back()->with('msg','Address Has Saved!');
     }
 
     public function Password() {

@@ -20,10 +20,6 @@
                                 <input type="submit" value="Submit" class="btn btn-primary pull-right" style="margin:-5px">
                             </div>
                               
-
-
-
-
                         </div>
                         <div class="panel-body">
                             <Select class="form-control" name="cat_id">

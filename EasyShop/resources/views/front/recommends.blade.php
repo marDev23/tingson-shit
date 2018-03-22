@@ -30,7 +30,7 @@ if(Auth::check()){
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
                                                        <a href="{{url('/product_details')}}/{{$p->pro_id}}"> 
-                                                           <img src="{{ asset('upload/images/large') }}/{{$p->pro_img}}" alt="" /></a>
+                                                           <img src="{{ asset('public/products/large') }}/{{$p->pro_img}}" alt="" /></a>
                                                         <h2>₱{{number_format($p->pro_price, 2, '.', ',')}}</h2>
                                                         <p>  <a href="{{url('/product_details')}}/{{$p->pro_id}}">{{$p->pro_name}}</a></p>
                                                         <a href="{{url('/cart/addItem')}}/{{$p->pro_id}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -48,7 +48,7 @@ if(Auth::check()){
                                                 <div class="single-products">
                                                     <div class="productinfo text-center">
                                                         <a href="{{url('/product_details')}}/{{$p->pro_id}}"> 
-                                                            <img src="{{ asset('upload/images/large') }}/{{$p->pro_img}}" alt="" /></a>
+                                                            <img src="{{ asset('public/products/large') }}/{{$p->pro_img}}" alt="" /></a>
                                                         <h2>₱ {{number_format($p->pro_price, 2, '.', ',')}}</h2>
                                                         <p>  <a href="{{url('/product_details')}}/{{$p->pro_id}}">{{$p->pro_name}}</a></p>
                                                         <a href="{{url('/cart/addItem')}}/{{$p->pro_id}}" class="btn btn-default add-to-cart">

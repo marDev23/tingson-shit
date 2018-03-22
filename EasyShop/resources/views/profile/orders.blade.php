@@ -82,7 +82,7 @@
                         </tr> --}}
                         <tr>
                             <td>Product Name: {{ucwords($list->pro_name)}}</td>
-                            <td>Product Price: ₱ {{$list->pro_price}}</td>
+                            <td>Product Price: ₱ {{number_format($list->pro_price, 2, '.', ',')}}</td>
                             <td>Quantity: {{$list->qty}}</td>
                         </tr>
                         

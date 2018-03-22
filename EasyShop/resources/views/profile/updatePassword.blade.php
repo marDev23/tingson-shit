@@ -23,7 +23,8 @@
             <div class="col-md-8">
 
                 @if(session('msg'))
-                <div class="alert alert-info">  {{session('msg')}}</div>
+                <div class="alert alert-info col-md-8"><a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                {{session('msg')}}</div>
                 @endif
 
                 <h3><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Update your Password</h3>

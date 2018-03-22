@@ -36,9 +36,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/checkout', 'CheckoutController@index');
     
     Route::post('/formvalidate', 'CheckoutController@formvalidate');
-    Route::get('/profile', function() {
-        return view('profile.index');
-    });
+    
+    Route::get('/profile', 'ProfileController@index');
+    Route::post('/updateProfile', 'ProfileController@updateProfile');
     Route::get('/orders', 'ProfileController@orders');
     Route::get('/findlocation_mun', 'CheckoutController@findlocation_mun');
     Route::get('/findlocation_bar', 'CheckoutController@findlocation_bar');
