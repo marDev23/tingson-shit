@@ -122,7 +122,7 @@ var proDum = $('#proDum').val();
 
 
                     <div class="shipping text-center"><!--shipping-->
-                        <img src="{{asset('theme/images/home/shipping.jpg')}}" alt="" />
+                        <img src="{{asset('theme/images/home/blahh.jpg')}}" alt="" />
                     </div><!--/shipping-->
 
                 </div>
@@ -150,13 +150,13 @@ var proDum = $('#proDum').val();
                               <span>
                                   <span id="price">
                                     @if($value->spl_price ==0)
-                                    ₱ {{number_format($product->pro_price, 2, '.', ',')}}
+                                    ₱ {{number_format($value->pro_price, 2, '.', ',')}}
                                      <input type="hidden" value="{{$value->pro_price}}"
                                       name="newPrice"/>
                                       @else
                                     <b style="text-decoration:line-through; color:#ddd">
-                                      ₱ {{number_format($product->pro_price, 2, '.', ',')}} <b>
-                                      ₱ {{number_format($product->spl_price, 2, '.', ',')}}
+                                      ₱ {{number_format($value->pro_price, 2, '.', ',')}} <b>
+                                      ₱ {{number_format($value->spl_price, 2, '.', ',')}}
                                        <input type="hidden" value="{{$value->spl_price}}"
                                         name="newPrice"/>
                                       @endif

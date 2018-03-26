@@ -86,7 +86,7 @@ $(document).ready(function(){
                                 <td>{{$product->id}}</td>
                                 <td>{{$product->pro_name}}</td>
                                 <td>{{$product->pro_code}}</td>
-                                <td>{{$product->pro_price}}</td>
+                                <td>₱ {{number_format($product->pro_price, 2, '.', ',')}}</td>
                                 <td>
                                   <?php
                                   $Aimgs = DB::table('alt_images')->where('proId', $product->id)

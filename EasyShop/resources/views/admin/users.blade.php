@@ -29,11 +29,7 @@ $(document).ready(function() {
       @include('admin.sidebar')
       <section id="main-content">
           <section class="wrapper">
-            <div style="padding:10px;" class="col-md-12">
-              <a href="{{url('admin/addUser')}}" class="btn btn-md btn-info">Add User</a>
-            </div>
-              <div class="content-box-large">
-                @if(session('msg-add'))
+            @if(session('msg-add'))
                 <div class="alert alert-success">  {{session('msg-add')}}</div>
                 @endif
                 @if(session('msg-dlt'))
@@ -42,6 +38,10 @@ $(document).ready(function() {
                 @if(session('msg'))
                 <div class="alert alert-info">  {{session('msg')}}</div>
                 @endif
+            <div style="padding:10px;" class="col-md-12">
+              <a href="{{url('admin/addUser')}}" class="btn btn-md btn-info">Add User</a>
+            </div>
+              <div class="content-box-large">
                   <h1>Users</h1>
                   <table class="table table-striped table-advance table-hover">
                       <thead>
@@ -85,7 +85,7 @@ $(document).ready(function() {
                           </td>
 													<td>
 														<div class="btn-group">
-                                    @if($userData->admin=='1')
+                                    @if($userData->id == Auth::user()->id)
                                     <a class="btn btn-info popovers" data-trigger="hover"
 																		 data-content="Edit User" data-placement="top" href="{{url('/admin/UserEditForm')}}/{{$userData->id}}">
 																				<i class="icon_minus_alt2"></i>

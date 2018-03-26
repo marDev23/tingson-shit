@@ -54,7 +54,7 @@
                         @if ($loop->first)
                         <tr class="btn-default">
                             <td>{{ucwords($list->created_at)}}</td>
-                            <td>₱ {{$list->total}}</td>
+                            <td>₱ {{number_format($list->total, 2, '.', ',')}}</td>
                             @if ($list->status == 'approved')
                             <td style="color: green; text-transform: capitalize;">{{$list->status}}</td>
                             @elseif ($list->status == 'pending')

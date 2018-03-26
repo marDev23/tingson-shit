@@ -45,7 +45,17 @@
                     </li>
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
-                            <i class="icon_tool"></i>
+                            <i class="icon_datareport"></i>
+                            <span>Reports</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a href="{{ url('/admin/sales') }}">Sales Report</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_cogs"></i>
                             <span>Settings</span>
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
@@ -55,16 +65,7 @@
                             <li><a href="{{url('admin/addPropertyAll')}}">Add Properties</a></li>
                         </ul>
                     </li>
-                    <li class="sub-menu">
-                        <a href="javascript:;" class="">
-                            <i class="icon_datareport"></i>
-                            <span>Reports</span>
-                            <span class="menu-arrow arrow_carrot-right"></span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="{{ url('/admin/sales') }}">Sales Report</a></li>
-                        </ul>
-                    </li>
+                    
 
 
                 </ul>

@@ -34,6 +34,15 @@
                             <td> Parent Category:</td>
                             <td>
                             <select name="p_id" class="form-control">
+                            @if($cat->p_id == '1')
+                            <option value="{{$cat->p_id}}" selected="selected">Home Furniture</option>
+                            @endif
+                            @if($cat->p_id == '2')
+                            <option value="{{$cat->p_id}}" selected="selected">Office Furniture</option>
+                            @endif
+                            @if($cat->p_id == '3')
+                            <option value="{{$cat->p_id}}" selected="selected">Decor</option>
+                            @endif
                               <option value="1">Home Furniture</option>
                               <option value="2">Office Furniture</option>
                               <option value="3">Decor</option>

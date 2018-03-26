@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\products;
 use Illuminate\Http\Request;
@@ -90,20 +91,13 @@ class AdminController extends Controller {
 
     // add cat
     public function catForm(Request $request) {
-        //echo $request->cat_name;
-        //return 'update query here';
         $pro_cat = new pro_cat;
 
         $pro_cat->name = $request->cat_name;
         $pro_cat->p_id = $request->p_id;
         $pro_cat->status = '0'; // by defalt enable
         $pro_cat->save();
-
-        $cats = DB::table('pro_cat')
-        ->orderby('id', 'DESC')
-        ->get();
-
-        return view('admin.categories', compact('cats'));
+        return redirect('/admin/categories')->with('msg-add', 'Category Successfully Added!');
     }
 
     // edit form for cat
@@ -125,11 +119,7 @@ class AdminController extends Controller {
         DB::table('pro_cat')->where('id', $catid)
         ->update(['name' => $catName, 'p_id' => $catP_id, 'status' => $status]);
 
-        $cats = DB::table('pro_cat')
-        ->orderby('id', 'DESC')
-        ->get();
-
-        return redirect('/admin/categories');
+        return redirect('/admin/categories')->with('msg-udt', 'Category Successfully Updated!');
     }
 
     public function view_cats() {
@@ -232,17 +222,10 @@ class AdminController extends Controller {
 
     //for delete cat
     public function deleteCat($id) {
-
-        //echo $id;
         DB::table('pro_cat')
         ->where('id', '=', $id)
         ->delete();
-
-
-        $cats = DB::table('pro_cat')
-        ->get();
-
-        return view('admin.categories', compact('cats'));
+        return redirect('/admin/categories')->with('msg-dlt', 'Category Successfully Deleted!');
     }
 
   public function sumbitProperty(Request $request){
@@ -347,13 +330,14 @@ class AdminController extends Controller {
         return view('admin.userEditForm', compact('users', $users));
     }
     public function editUser(Request $request){
+
         $this->validate($request, [
         'name' => 'required|max:255',
         'email' => 'required|email|max:255',
         'phone' => 'required|numeric|digits:11',
         'password' => 'required|min:6',
       ]);
-
+        // dd($request->name);
         $user_id = $request->id;
         $user_name = $request->name;
         $user_email = $request->email;
@@ -370,7 +354,6 @@ class AdminController extends Controller {
             'phone' => $user_phone,
             'password' => $user_password,
             'admin' => $user_admin,
-
         ]);
 
         return redirect('/admin/users')->with('msg', 'User Successfully Updated');
@@ -431,7 +414,9 @@ class AdminController extends Controller {
       ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
       ->leftJoin('address', 'address.user_id', '=', 'orders.user_id')
       ->leftJoin('users', 'users.id', '=', 'orders.user_id')
-      ->select('users.*', 'address.*', 'products.*', 'orders_products.*', 'orders.*')
+      ->leftJoin('locations', 'locations.id', '=', 'address.address_id')
+      ->leftJoin('provinces', 'provinces.id', '=', 'locations.province_id')
+      ->select('users.*', 'address.*', 'products.*','locations.*','provinces.name', 'orders_products.*', 'orders.*')
       ->where('orders_products.orders_id', $id)
       ->get();
 
@@ -461,7 +446,9 @@ class AdminController extends Controller {
       ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
       ->leftJoin('address', 'address.user_id', '=', 'orders.user_id')
       ->leftJoin('users', 'users.id', '=', 'orders.user_id')
-      ->select('users.*', 'address.*', 'products.*', 'orders_products.*', 'orders.*')
+      ->leftJoin('locations', 'locations.id', '=', 'address.address_id')
+      ->leftJoin('provinces', 'provinces.id', '=', 'locations.province_id')
+      ->select('users.*', 'address.*', 'products.*','locations.*','provinces.name', 'orders_products.*', 'orders.*')
       ->where('orders_products.orders_id', $id)
       ->get();
       return view('admin.print_orders', compact('data'));
@@ -496,12 +483,61 @@ class AdminController extends Controller {
     }
 
     public function sales() {
+      // dd(\Carbon\Carbon::today()->toDateTimeString());
       $sales = DB::table('orders_products')
       ->leftJoin('products', 'products.id', '=', 'orders_products.products_id')
-      ->select('products.*', 'orders_products.*')
+      ->leftJoin('orders', 'orders.id', '=', 'orders_products.orders_id')
+      ->select('products.*', 'orders.created_at', 'orders_products.*')
+      ->where('orders.created_at', '>=', \Carbon\Carbon::today()->startOfDay())
+      ->where('orders.created_at', '<=', \Carbon\Carbon::today()->endOfDay())
       ->get();
       // dd($sales);
       return view('admin.sales', compact('sales'));
+    }
+
+    public function profile() {
+      $profile = DB::table('users')
+      ->where('id', '=', Auth::user()->id)
+      ->get();
+      return view('admin.profile', compact('profile'));
+    }
+
+    public function editProfile(Request $request) {
+      $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|numeric|digits:11',
+      ]);
+        // dd($request->name);
+        $user_id = $request->id;
+        $user_name = $request->name;
+        $user_email = $request->email;
+        $user_phone = $request->phone;
+        
+
+        DB::table('users')
+        ->where('id', $user_id)
+        ->update([
+            'name' => $request->name,
+            'email' => $user_email,
+            'phone' => $user_phone,
+        ]);
+
+        return back()->with('msg', 'Profile Successfully Updated!');
+    }
+
+    public function updatePassword(Request $request) {
+      $oldPassword = $request->oldPassword;
+        $newPassword = $request->newPassword;
+
+
+        if(!Hash::check($oldPassword, Auth::user()->password)){
+          return back()->with('msg', 'Password Does Not Match The In The Record'); //when user enter wrong password as current password
+
+        }else{
+            $request->user()->fill(['password' => Hash::make($newPassword)])->save(); //updating password into user table
+           return back()->with('msg', 'Password Updated');
+        }
     }
 
 

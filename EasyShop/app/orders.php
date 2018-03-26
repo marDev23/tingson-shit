@@ -18,11 +18,11 @@ class orders extends Model {
         return $this->belongsToMany(products::class)->withPivot('qty', 'total');
     }
 
-    public static function createOrder($filename) {
+    public static function createOrder($filename, $fee) {
 
         // for order inserting to database
         $user = Auth::user();
-        $order = $user->orders()->create(['total' => Cart::total(), 'status' => 'pending', 'reciept_img' => $filename]);
+        $order = $user->orders()->create(['total' => Cart::total() + $fee, 'status' => 'pending', 'reciept_img' => $filename]);
 
 
         $cartItems = Cart::content();

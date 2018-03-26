@@ -20,7 +20,7 @@
         <div class="breadcrumbs">
             <ol class="breadcrumb">
                 <li><a href="#">Home</a></li>
-                <li class="active">Check out</li>
+                <li class="active">Checkout</li>
             </ol>
         </div><!--/breadcrums-->
 
@@ -33,13 +33,34 @@
 
         <?php // form start here 
         ?>
+        @if($errors->first('city'))
+            <div class="alert alert-info">  
+                <a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                {{$errors->first('city')}}
+            
+            </div>
+        @endif
+        @if($errors->first('fullname'))
+            <div class="alert alert-info">  
+                <a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                {{$errors->first('fullname')}}
+            
+            </div>
+        @endif
+        @if($errors->first('reciept_img'))
+            <div class="alert alert-info">  
+                <a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                {{$errors->first('reciept_img')}}
+            
+            </div>
+        @endif
         <form action="{{url('/')}}/formvalidate" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="shopper-informations">
                 <div class="row">
                     <div class="col-sm-8">
                         <div class="shopper-info">
-                            <p>Shopper Information</p>
+                            <h2>Shopper Information</h2>
                         @if(count($profile_address) > 0)
                             @foreach($profile_address as $address)
                             <hr>
@@ -77,7 +98,7 @@
                             <hr>
                             <select name="city" class="city form-control" required>
                                 @if(!$address->baranggay == '' || !$address->baranggay == '0' || !$address->baranggay == 'null')
-                                    <option value="{{$address->address_id}}" disabled="true" selected="true">{{$address->baranggay}}</option>
+                                    <option value="{{$address->address_id}}" selected="true">{{$address->baranggay}}</option>
                                 @else
                                     <option value="0" disabled="true" selected="true">Select Baranggay</option>
                                 @endif
@@ -86,7 +107,7 @@
                             <span style="color:red">{{ $errors->first('city') }}</span>
 
                             <hr>
-                            <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{$address->zip}}" readonly="true">
+                            <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{$address->zip}}">
 
                             <span style="color:red">{{ $errors->first('pincode') }}</span>
                             @endforeach
@@ -131,8 +152,44 @@
 
                     <div class="col-sm-4">
                         <div class="order-message">
-                            <p>Upload Reciept</p>
-                            <textarea disabled name="message"  placeholder="Please! Provide a clear image of the payment reciept. If you haven't done paying, Please! do pay in your nearest Padala Center. Then take a snap (take photo) of it." rows="6"></textarea>
+                            <h2>Upload Reciept</h2>
+                            <h4>First</h4>
+                            <h5>Pay: Any of these remittance</h5>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="social-icons pull-right">
+                                            <ul class="nav navbar-nav">
+                                                <li><a><img style="margin-right: 1em; width: 50px; height: 47px;" src="{{ asset('/theme/images/cart/rd.png') }}"></a></li>
+                                                <li><a><img style="margin-right: 1em; width: 50px; height: 47px;" src="{{ asset('/theme/images/cart/palawan.jpeg') }}"></a></li>
+                                                <li><a><img style="margin-right: 1em; width: 50px; height: 47px;" src="{{ asset('/theme/images/cart/lbc.jpeg') }}"></a></li>
+                                                <li><a><img style="width: 55px; height: 47px;" src="{{ asset('/theme/images/cart/ml.png') }}"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="social-icons pull-right">
+                                            <ul class="nav navbar-nav">
+                                                <li><a><img style="margin-right: 1em; width: 50px; height: 47px;" src="{{ asset('/theme/images/cart/cebuana.png') }}"></a></li>
+                                                <li><a><img style="margin-right: 1em; width: 55px; height: 47px;" src="{{ asset('/theme/images/cart/western.png') }}"></a></li>
+                                                <li><a><img style="margin-right: 1em; width: 50px; height: 47px;" src="{{ asset('/theme/images/cart/gcash.png') }}"></a></li>
+                                                <li><a><img style="width: 50px; height: 47px;" src="{{ asset('/theme/images/cart/smart.png') }}"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 style="margin-bottom: .09em;">To:</h5>
+                            <p style="font-size: 1.11em; margin-bottom: .1em;">Name: Tingson</p>
+                            <p style="font-size: 1.11em; margin-bottom: .1em;">Address: Masao Tungwan Zamboanga Sibugay, 7018</p>
+                            <p style="font-size: 1.11em; margin-bottom: .1em;">Phone: 09454545454</p>
+                            <p style="font-size: 1.11em;">E-mail: tingson_shit@gmail.com</p>
+                            <h4>Then</h4>
+                            <h5>Take A Clear Photo Of The Reciept And Upload</h5>
                             <input type="file" name="reciept_img" class="form-control">
                             <span style="color:red">{{ $errors->first('reciept_img') }}</span>
                         </div>
@@ -190,24 +247,54 @@
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
+                            @if(count($profile_address) > 0)
+                            @foreach($profile_address as $address)
                             <table class="table table-condensed total-result">
                                 <tr>
                                     <td>Cart Sub Total</td>
-                                    <td>₱{{Cart::subtotal()}}</td>
+                                    <td>₱ {{number_format(Cart::subtotal(), 2), '.', ','}}</td>
                                 </tr>
                                 <tr>
-                                    <td> Tax</td>
-                                    <td>₱{{Cart::tax()}}</td>
+                                    <td> VAT</td>
+                                    <td>₱ {{Cart::tax()}}</td>
                                 </tr>
                                 <tr class="shipping-cost">
-                                    <td>Shipping Cost</td>
-                                    <td>Free</td>
+                                    <td>Shipping</td>
+                                    @if(!$address->shipping_fee == '' || !$address->shipping_fee == '0' || !$address->shipping_fee== 'null')
+                                    <td class="shipping_fee">₱ {{number_format($address->shipping_fee, 2, '.', ',')}}</td>
+                                    @else
+                                    <td class="shipping_fee">₱ 0.00</td>
+                                    @endif
+
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td><span>₱{{Cart::total()}}</span></td>
+                                    <td><span class="total">₱ {{number_format(Cart::total() + $address->shipping_fee, 2, '.', ',')}}</span></td>
                                 </tr>
                             </table>
+                            <input type="hidden" id="fee" name="shipping_fee" value="{{$address->shipping_fee}}">
+                            @endforeach
+                            @else
+                            <table class="table table-condensed total-result">
+                                <tr>
+                                    <td>Cart Sub Total</td>
+                                    <td>₱ {{Cart::subtotal()}}</td>
+                                </tr>
+                                <tr>
+                                    <td> VAT</td>
+                                    <td>₱ {{Cart::tax()}}</td>
+                                </tr>
+                                <tr class="shipping-cost">
+                                    <td>Shipping</td>
+                                    <td class="shipping_fee">₱ 0.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td><span class="total">₱ {{Cart::total()}}</span></td>
+                                </tr>
+                            </table>
+                            <input type="hidden" id="fee" name="shipping_fee" value="">
+                            @endif
                         </td>
                     </tr>
 
@@ -304,6 +391,8 @@
                 });
 
                 $(document).on('change','.city',function () {
+                var marv = $('.shipping').text();
+                console.log(marv);
                 var prod_id=$(this).val();
 
                 var a=$(this).parent();
@@ -316,7 +405,19 @@
                     dataType:'json',//return data will be json
                     success:function(data){
                         // console.log("price");
+
                         console.log(data.zip);
+                        console.log(data.shipping_fee);
+                        $('#fee').val(data.shipping_fee);
+                        // var subtotal = parseFloat('{{Cart::subtotal()}}'.replace(/,/g, ''));
+                        var result = {{Cart::subtotal()}} + data.shipping_fee;
+                        console.log(result.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'));
+                        var result_type = result.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                        var shipping_type = data.shipping_fee.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                        // marv = data.shipping_fee;
+                        $('.shipping_fee').text('₱ ' + shipping_type);
+                        $('.total').text('₱ ' + result_type);
+                        
 
                         // here price is coloumn name in products table data.coln name
 

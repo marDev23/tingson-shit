@@ -11,19 +11,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="content-box-large">
+                        <form action="{{ url('admin/editUser') }}" method="POST">
                         <div class="panel-heading">
-                        {!! Form::open(['url' => 'admin/editUser',  'method' => 'post']) !!}
                             <div class="panel-title">Edit User
                                 <input type="submit" value="Update" class="btn btn-primary pull-right" style="margin:-5px">
                             </div>
                               
-
-
-
-
                             </div>
                         <div class="panel-body">
                             @foreach($users as $user)
+                            <input type="hidden" name="id" class="form-control" value="{{$user->id}}">
                             Name:    <input type="text" name="name" class="form-control" value="{{$user->name}}">
                             <span style="color:red">{{ $errors->first('name') }}</span>
                             <br/>
@@ -39,9 +36,9 @@
                             <input type="hidden" name="admin" value="1">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             @endforeach
-                        {!! Form::close() !!}
                         </div>
-
+                         </form>
+                    </div>
 
 
                     </div>

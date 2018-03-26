@@ -112,6 +112,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
     Route::get('/canceledOrders', 'AdminController@canceled_orders');
     Route::get('/delete_order/{id}', 'AdminController@deleteOrder');
     Route::get('/sales', 'AdminController@sales');
+    Route::get('/profile', 'AdminController@profile');
+    Route::post('/editProfile', 'AdminController@editProfile');
+    Route::post('updatePassword', 'AdminController@updatePassword');
 
 
     //import products

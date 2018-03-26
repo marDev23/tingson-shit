@@ -16,16 +16,16 @@ if(isset($id)){
             <section class="wrapper">
 
                 <div class="content-box-large">
-  {!! Form::open(['url' => 'admin/sumbitProperty',  'method' => 'post']) !!}
-                  <div class="panel-heading col-md-8">
-                   <div class="panel-title">Add Property
-                     <input type="submit" class="btn btn-success pull-right" value="Submit Property" style="margin:-4px"/>
-                   </div>
-                   </div>
+                    {!! Form::open(['url' => 'admin/sumbitProperty',  'method' => 'post']) !!}
+                  
 
 
                     <div class="col-md-5">
-
+                      <div class="panel-heading">
+                   <div class="panel-title">Add Property
+                     <input type="submit" class="btn btn-success pull-right" value="Submit Property" style="margin:-4px"/>
+                   </div>
+                   </div><br>
                           <b>Product Name:</b>
                         <select class="form-control" name="pro_id">
                               @foreach($Products as $product)

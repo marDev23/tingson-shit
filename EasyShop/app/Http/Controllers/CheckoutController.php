@@ -20,7 +20,7 @@ class CheckoutController extends Controller {
           ->where('address.user_id', '=', Auth::user()->id)
           ->leftJoin('locations', 'locations.id', '=', 'address.address_id')
           ->leftJoin('provinces', 'provinces.id', '=', 'locations.province_id')
-          ->select('address.address_id', 'address.fullname', 'locations.city_mun', 'locations.baranggay', 'locations.zip', 'provinces.name')
+          ->select('address.address_id', 'address.fullname', 'locations.city_mun', 'locations.baranggay', 'locations.zip', 'locations.shipping_fee', 'provinces.name')
           ->get();
           // dd($profile_address);
           $provinces = Province::all();
@@ -33,6 +33,7 @@ class CheckoutController extends Controller {
     public function formvalidate(Request $request) {
         $this->validate($request, [
             'reciept_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
+        $fee = $request->shipping_fee;
         $file = $request->file('reciept_img');
         $filename = time() . '.' . $file->getClientOriginalName();
 
@@ -56,10 +57,10 @@ class CheckoutController extends Controller {
         $address->payment_type = $request->pay;
         $address->save();
 
-        orders::createOrder($filename);
+        orders::createOrder($filename, $fee);
         
         Cart::destroy();
-        return redirect('thankyou');
+        return view('profile.thankyou');
 
        }
        else {
@@ -72,10 +73,10 @@ class CheckoutController extends Controller {
         DB::table('address')
         ->where('user_id', '=', Auth::user()->id)
         ->update(['fullname' => $request->fullname, 'address_id' => Auth::user()->id, 'address_id' => $request->city]);
-        orders::createOrder($filename);
+        orders::createOrder($filename, $fee);
         
         Cart::destroy();
-        return redirect('thankyou');
+        return view('profile.thankyou');
        }
         
         
@@ -92,7 +93,7 @@ class CheckoutController extends Controller {
     }
 
     public function findlocation_zip(Request $request) {
-        $p = Location::select('zip')->where('id', $request->id)->first();
+        $p = Location::select('zip', 'shipping_fee')->where('id', $request->id)->first();
         return response()->json($p);
     }
 

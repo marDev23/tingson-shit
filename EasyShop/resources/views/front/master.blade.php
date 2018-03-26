@@ -144,7 +144,7 @@
                             <div class="shop-menu pull-right">
                                 <ul class="nav navbar-nav">
                                     <?php if (Auth::check()) { ?>
-                                        <li><a href="{{url('/')}}/profile"><i class="fa fa-user"></i>{{ucwords(Auth::user()->name)}}</a></li>
+                                        <li style="text-transform: capitalize;"><a href="{{url('/')}}/profile"><i class="fa fa-user"></i>{{ucwords(Auth::user()->name)}}</a></li>
                                     <?php } ?>
                                     <li><a href="{{url('/WishList')}}"><i class="fa fa-star"></i> Wishlist <span style="color:green; font-weight: bold">(@if(Auth::check())
                                                                          {{App\wishList::count()}}

@@ -12,9 +12,9 @@
 					<!--  search form start -->
 					<ul class="nav top-menu">
 							<li>
-									<form class="navbar-form">
+									{{-- <form class="navbar-form">
 											<input class="form-control" placeholder="Search" type="text">
-									</form>
+									</form> --}}
 							</li>
 					</ul>
 					<!--  search form end -->
@@ -227,13 +227,13 @@
 											{{-- <span class="profile-ava">
 													<img alt="" src="{{asset('admin_theme/img/avatar1_small.jpg')}}">
 											</span> --}}
-											<span class="username">{{Auth::user()->name}}</span>
+											<span class="username" style="text-transform: capitalize;">{{Auth::user()->name}}</span>
 											<b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu extended logout">
 											<div class="log-arrow-up"></div>
 											<li class="eborder-top">
-													<a href="{{url('/admin')}}"><i class="icon_profile"></i> My Profile</a>
+													<a href="{{url('/admin/profile')}}"><i class="icon_profile"></i> My Profile</a>
 											</li>
 
 											<li>

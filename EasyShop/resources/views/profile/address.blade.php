@@ -25,19 +25,19 @@
             <div class="col-md-8">
 
                 @if(session('msg'))
-                <div class="alert alert-info col-md-8">  
+                <div class="alert alert-info col-md-10">  
                     <a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
                     {{session('msg')}}
                 
                 </div>
                 @endif
+                <h3 class="container col-md-10"><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Your Address</h3>
                 
-                <h3 class="col-md-8"><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Your Address</h3>
                 @if(count($address_data) > 0)
                 {!! Form::open(['url' => 'updateAddress',  'method' => 'post']) !!}
                 
                 @foreach($address_data as $address)
-                <div class="container col-md-8" >
+                <div class="container col-md-10" >
                             <hr>
                             <input type="text" name="fullname"  placeholder="Full Name" class="form-control"  value="{{$address->fullname}}" required>
 
@@ -73,7 +73,7 @@
                             <hr>
                             <select name="city" class="city form-control" required>
                                 @if(!$address->baranggay == '' || !$address->baranggay == '0' || !$address->baranggay == 'null')
-                                    <option value="{{$address->address_id}}" disabled="true" selected="true">{{$address->baranggay}}</option>
+                                    <option value="{{$address->address_id}}" selected="true">{{$address->baranggay}}</option>
                                 @else
                                     <option value="0" disabled="true" selected="true">Select Baranggay</option>
                                 @endif
@@ -82,7 +82,7 @@
                             <span style="color:red">{{ $errors->first('city') }}</span>
 
                             <hr>
-                            <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{$address->zip}}" readonly="true">
+                            <input type="text" placeholder="Zip" name="pincode" class="pincode form-control" value="{{$address->zip}}">
 
                             <span style="color:red">{{ $errors->first('pincode') }}</span>
 
@@ -102,7 +102,7 @@
                 @else
                 {!! Form::open(['url' => 'saveAddress',  'method' => 'post']) !!}
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <div class="container col-md-8" >
+                <div class="container col-md-10" >
 
                     <hr>
                             <input type="text" name="fullname"  placeholder="Full Name" class="form-control"  value="{{old('fullname')}}" required>

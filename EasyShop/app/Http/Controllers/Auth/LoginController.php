@@ -42,5 +42,14 @@ class LoginController extends Controller
       return array_add($credentials, 'isBan',0); // 0 means all fine and can login
     }
 
+    protected function authenticated($request, $user) {
+        if($user->admin == 1) {
+            return redirect('/admin');
+        }
+        else {
+            return redirect('/');
+        }
+    }
+
 
 }

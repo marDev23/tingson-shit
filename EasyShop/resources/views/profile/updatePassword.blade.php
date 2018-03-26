@@ -23,21 +23,17 @@
             <div class="col-md-8">
 
                 @if(session('msg'))
-                <div class="alert alert-info col-md-8"><a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                <div class="alert alert-info col-md-10"><a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
                 {{session('msg')}}</div>
                 @endif
 
-                <h3><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Update your Password</h3>
+                <h3 class="col-md-10"><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Update your Password</h3>
 
                 {!! Form::open(['url' => 'updatePassword',  'method' => 'post']) !!}
 
 
-                <div class="container" >
+                <div class="container col-md-10" >
 
-
-                    <div class="form-group row">
-
-                        <div class="form-group col-md-5">
                             <label for="example-text-input">Current Password</label>
                             <input class="form-control" type="password"  name="oldPassword">
                             <span style="color:red">{{ $errors->first('old_password') }}</span>
@@ -50,12 +46,6 @@
 
                             <br>
                             <div align="right"> <input type="submit" value="Update Password" class="btn btn-primary"></div>
-                        </div>
-
-
-
-
-                    </div>
 
                 </div>
 

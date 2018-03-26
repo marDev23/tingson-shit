@@ -101,11 +101,11 @@ class ProfileController extends Controller {
 
 
         if(!Hash::check($oldPassword, Auth::user()->password)){
-          return back()->with('msg','The specified password does not match the database password'); //when user enter wrong password as current password
+          return back()->with('msg', 'Password Does Not Match The In The Record'); //when user enter wrong password as current password
 
         }else{
             $request->user()->fill(['password' => Hash::make($newPassword)])->save(); //updating password into user table
-           return back()->with('msg','Password has been updated');
+           return back()->with('msg', 'Password Updated');
         }
        // echo 'here update query for password';
     }

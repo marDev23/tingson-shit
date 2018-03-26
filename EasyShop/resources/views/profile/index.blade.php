@@ -23,20 +23,18 @@
             <div class="col-md-8">
 
                 @if(session('msg'))
-                <div class="alert alert-info col-md-8"><a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
+                <div class="alert alert-info col-md-10"><a href='#' class="close" data-dismiss="alert" aria-label="close">x</a>
                 {{session('msg')}}</div>
                 @endif
 
-                <h3><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Welcome</h3>
+                <h3 class="container col-md-10"><span style='color:green'>{{ucwords(Auth::user()->name)}}</span>, Welcome</h3>
                 {!! Form::open(['url' => 'updateProfile',  'method' => 'post']) !!}
 
 
-                <div class="container" >
+                <div class="container col-md-10" >
 
-
-                    <div class="form-group row">
                         @foreach($user as $data)
-                        <div class="form-group col-md-5">
+                        <div class="form-group">
                             <label for="example-text-input">Name</label>
                             <input class="form-control" type="text"  name="name" value="{{$data->name}}" required>
                             <span style="color:red">{{ $errors->first('name') }}</span>
@@ -56,9 +54,6 @@
                         </div>
                       @endforeach
 
-
-
-                    </div>
 
                 </div>
 

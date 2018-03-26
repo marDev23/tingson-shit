@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 18, 2018 at 11:00 PM
+-- Generation Time: Feb 18, 2018 at 07:39 PM
 -- Server version: 10.1.30-MariaDB-0ubuntu0.17.10.1
--- PHP Version: 7.1.11-0ubuntu0.17.10.1
+-- PHP Version: 7.1.15-0ubuntu0.17.10.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -60,20 +60,21 @@ CREATE TABLE `locations` (
   `province_id` int(11) NOT NULL,
   `city_mun` varchar(255) NOT NULL,
   `baranggay` varchar(255) NOT NULL,
-  `zip` int(11) NOT NULL
+  `zip` int(11) NOT NULL,
+  `shipping_fee` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `locations`
 --
 
-INSERT INTO `locations` (`id`, `province_id`, `city_mun`, `baranggay`, `zip`) VALUES
-(1, 1, 'Dipolog', 'Barra', 7100),
-(2, 1, 'Dapitan', 'Aliguay', 7101),
-(3, 2, 'Zamboanga City', 'Ayala', 7000),
-(4, 2, 'Dumalinaw', 'Camalig', 7015),
-(5, 3, 'Tungawan', 'Tigbanuang', 7018),
-(6, 3, 'R.T Lim', 'Baybay', 7002);
+INSERT INTO `locations` (`id`, `province_id`, `city_mun`, `baranggay`, `zip`, `shipping_fee`) VALUES
+(1, 1, 'Dipolog', 'Barra', 7100, 123),
+(2, 1, 'Dapitan', 'Aliguay', 7101, 124),
+(3, 2, 'Zamboanga City', 'Ayala', 7000, 125),
+(4, 2, 'Dumalinaw', 'Camalig', 7015, 126),
+(5, 3, 'Tungawan', 'Tigbanuang', 7018, 127),
+(6, 3, 'R.T Lim', 'Baybay', 7002, 128);
 
 -- --------------------------------------------------------
 
@@ -85,7 +86,7 @@ CREATE TABLE `orders` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) NOT NULL,
   `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `total` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `total` decimal(11,1) NOT NULL,
   `reciept_img` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -99,7 +100,7 @@ CREATE TABLE `orders` (
 
 CREATE TABLE `orders_products` (
   `id` int(11) NOT NULL,
-  `total` float NOT NULL,
+  `total` decimal(11,1) NOT NULL,
   `products_id` int(11) NOT NULL,
   `orders_id` int(11) NOT NULL,
   `tax` varchar(255) NOT NULL,
@@ -209,6 +210,14 @@ CREATE TABLE `pro_cat` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `pro_cat`
+--
+
+INSERT INTO `pro_cat` (`id`, `name`, `p_id`, `created_at`, `updated_at`, `status`) VALUES
+(1, 'Dining Room', 1, '2018-03-23 07:51:57', '2018-03-23 07:51:57', 0),
+(2, 'Living Room', 1, '2018-03-23 07:52:11', '2018-03-23 07:52:11', 0);
 
 -- --------------------------------------------------------
 
@@ -323,7 +332,11 @@ INSERT INTO `recommends` (`id`, `pro_id`, `uid`, `created_at`, `updated_at`) VAL
 (92, 1, 8, '2018-02-19 02:57:33', '2018-02-19 02:57:33'),
 (93, 1, 8, '2018-02-19 02:57:39', '2018-02-19 02:57:39'),
 (94, 1, 8, '2018-02-19 03:03:17', '2018-02-19 03:03:17'),
-(95, 26, 19, '2018-02-19 04:00:07', '2018-02-19 04:00:07');
+(95, 26, 19, '2018-02-19 04:00:07', '2018-02-19 04:00:07'),
+(96, 1, 2, '2018-03-25 09:07:04', '2018-03-25 09:07:04'),
+(97, 1, 2, '2018-03-25 09:09:58', '2018-03-25 09:09:58'),
+(98, 1, 2, '2018-03-25 09:10:33', '2018-03-25 09:10:33'),
+(99, 1, 2, '2018-03-25 09:10:47', '2018-03-25 09:10:47');
 
 -- --------------------------------------------------------
 
@@ -358,6 +371,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `phone`, `password`, `admin`, `isBan`, `remember_token`, `created_at`, `updated_at`) VALUES
+(3, 'marvin marzo', 'marvinmarzon@gmail.com', '06125645123', '$2y$10$w5x52KYKWr/MtEKM3IawoeoAAhe3s/aiJhflynBsH1T7fDwYDUazy', 1, 0, 'e6lDo4JGzbNgp0TaDJlvpvDUbJIj3Kqh0yTFz5qqFcDDHikkLGxe20DfX3JD', '2018-02-19 02:50:16', '2018-02-19 04:24:36');
 
 -- --------------------------------------------------------
 
@@ -477,12 +497,12 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `alt_images`
 --
 ALTER TABLE `alt_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `locations`
 --
@@ -492,12 +512,12 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `orders_products`
 --
 ALTER TABLE `orders_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `parent_category`
 --
@@ -507,12 +527,12 @@ ALTER TABLE `parent_category`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `products_properties`
 --
 ALTER TABLE `products_properties`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `provinces`
 --
@@ -522,22 +542,22 @@ ALTER TABLE `provinces`
 -- AUTO_INCREMENT for table `pro_cat`
 --
 ALTER TABLE `pro_cat`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `recommends`
 --
 ALTER TABLE `recommends`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `wishlist`
 --

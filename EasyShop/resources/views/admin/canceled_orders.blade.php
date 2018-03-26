@@ -52,7 +52,7 @@
                                 <td>{{$orders->id}}</td>
                                 <td class="name_order">{{$orders->name}}</td>
                                 <td class="status_order">{{$orders->status}}</td>
-                                <td>₱ {{$orders->total}}</td>
+                                <td>₱ {{number_format($orders->total, 2, '.', ',')}}</td>
                                 <td class="reciept_img"><a data-lightbox="myreciept_img" href="{{ asset('reciept/images') }}/{{$orders->reciept_img}}"> <img src="{{ asset('reciept/images') }}/{{$orders->reciept_img}}" alt="Reciept Image Captured"></a></td>
                                 <td>
                                <a href="{{url('/admin/pro_preview')}}/{{$orders->id}}"

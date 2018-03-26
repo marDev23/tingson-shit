@@ -20,7 +20,7 @@
 $(document).ready(function(){
       setTimeout(function() {
        window.location.href = "http://localhost:8000/admin/approvedOrders"
-      }, 10);
+      }, 100);
       window.print();
     });
 </script>
@@ -42,22 +42,14 @@ $(document).ready(function(){
   <section id="container" class="">
 
     <section id="main-content">
-        <section class="wrapper">
             <div class="content-box-large">
-                <div class="row">
-                  <div class="col-lg-10">
+                  <div class="col-lg-12">
                       <!--notification start-->
-                      <section class="panel">
-                        <div class="logo pull-center">
-                    <a href="{{url('/')}}"><img src="{{url('../')}}/theme/images/home/logo.png" alt="" /></a>
+                        <div class="logo pull-center" style="text-align: center;">
+                    <img src="{{url('../')}}/theme/images/home/logo.png" alt="" />
                 </div>
-
-
-                          <header class="panel-heading">
-                            Orders Preview
-                          </header>
                           <div class="panel-body">                            
-                              <div class="alert alert-info fade in">
+                              <div class="alert alert-default">
                                   <table class="table table-striped">
                                     <thead>
                                       <tr>
@@ -74,9 +66,9 @@ $(document).ready(function(){
                                             @foreach($data as $order)
                                             <tr>
                                                 <td>{{$order->pro_name}}</td>
-                                                <td class="pro_img"><img src="{{ asset('upload/images/small') }}/{{$order->pro_img}}" alt="Product Image"></td>
+                                                <td class="pro_img"><img src="{{ asset('public/products/small') }}/{{$order->pro_img}}" alt="Product Image"></td>
                                                 <td>{{$order->qty}}</td>
-                                                <td>₱ {{$order->pro_price}}</td>
+                                                <td>₱ {{number_format($order->pro_price, 2, '.', ',')}}</td>
                                               
                                             </tr>
                                             @endforeach
@@ -87,7 +79,7 @@ $(document).ready(function(){
                                     <thead>
                                       <tr>
                                             <th> </th>
-                                            <th> </th>
+                                            <th>Shipping Fee</th>
                                             <th>Tax</th>
                                             <th>Total</th>
                                         
@@ -99,9 +91,9 @@ $(document).ready(function(){
                                               @if($loop->first)
                                             <tr>
                                                 <td> </td>
-                                                <td> </td>
-                                                <td>₱ {{$order->tax}}</td>
-                                                <td>₱ {{$order->total}}</td>
+                                                <td>₱ {{number_format($order->shipping_fee, 2, '.', ',')}}</td>
+                                                <td>₱ {{number_format($order->tax, 2, '.', ',')}}</td>
+                                                <td>₱ {{number_format($order->total, 2), '.', ','}}</td>
                                               @endif
                                               @endforeach
                                             </tr>
@@ -112,20 +104,17 @@ $(document).ready(function(){
                               <div class="alert alert-default">
                                 @foreach($data as $order)
                                   @if($loop->first)
-                                  <strong>Shipping Address: </strong> {{$order->city}} {{$order->state}} {{$order->country}}, {{$order->pincode}}  <br>
+                                  <strong>Shipping Address: </strong> {{$order->baranggay}} {{$order->city_mun}} {{$order->name}}, {{$order->zip}}  <br>
                                   
                                   <strong>Email: </strong> {{$order->email}}<br>
-                                  
-                                  <strong>Name: </strong> {{$order->name}}
+                                  <strong>Phone: </strong> {{$order->phone}}<br>
+                                  <strong>Name: </strong> {{$order->fullname}} <br>
                               </div>
                               @endif
                               @endforeach
                           </div>
-                      </section>
                     </div>
                   </div>
-            </div>
-        </section>
       </section>
     </section>
 
